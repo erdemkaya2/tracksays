@@ -8,6 +8,10 @@
 
 <style>
 body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle at top,#1e293b,#020617);color:#e2e8f0}
+html, body{
+height:100%;
+overflow: auto;
+}
 .header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px}
 .header-right{display:flex;align-items:center;gap:16px}
 .logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:600;text-decoration:none;color:#e2e8f0}
@@ -20,7 +24,11 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
 .lang-btn.active{background:#38bdf8;color:#020617}
 
 /* FIX 3: Sol liste daha dar */
-.main{display:flex;gap:20px;padding:20px 40px}
+.main{
+display:flex;
+gap:20px;
+padding:20px 40px;
+}
 .left{background:rgba(30,41,59,0.6);border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto}
 .track{display:flex;justify-content:space-between;padding:8px;border-radius:8px;cursor:pointer}
 .track:hover{background:rgba(56,189,248,0.1)}
@@ -38,31 +46,38 @@ font-size:14px; /* 👈 1 boyut büyüttük */
 
 .right{
 flex:1;
+display:flex;
+flex-direction:column;
+gap:10px;
+
 background:#334155;
 border-radius:16px;
-padding: 20px; /* 👈 KRİTİK */
+padding:20px;
 max-height:70vh;
-overflow-y:auto;
-position: relative;
 }
-.track-title{
-font-size:22px;
-margin-bottom:15px;
+/* HEADER */
+.track-header{
+background:#334155;
+border-radius:16px;
+padding:16px 20px;
+
 display:flex;
 justify-content:space-between;
 align-items:center;
+
+font-size:22px;
 font-weight:700;
 color:#38bdf8;
+}
 
-position: sticky;
-top: 0;
-z-index: 100; /* 👈 artırdık */
+/* COMMENTS BOX */
+.comments-box{
+background:#334155;
+border-radius:16px;
+padding:20px;
 
-background:#334155; /* 👈 TAM OPACITY */
-
-padding:12px 20px;
-
-border-bottom:1px solid rgba(255,255,255,0.05);
+flex:1; /* 👈 KRİTİK */
+overflow-y:auto;
 }
 .actions{display:flex;gap:10px}
 .primary-btn{background:#38bdf8;color:#020617;border:none;padding:6px 12px;border-radius:8px;font-weight:600;cursor:pointer}
@@ -206,14 +221,22 @@ margin-right:-20px;
   </div>
 
   <div class="right">
-    <div class="track-title">
-      <span id="trackTitle"></span>
-      <div class="actions">
-        <button class="primary-btn" id="writeBtn">Write Comment</button>
-        <!-- FIX 2: Toggle butonu başlangıçta "Show All" -->
-        <button class="secondary-btn" id="showAllBtn">Show All</button>
-      </div>
-    </div>
+
+<!-- HEADER (AYRI KUTU) -->
+<div class="track-header">
+<span id="trackTitle"></span>
+<div class="actions">
+<button class="primary-btn" id="writeBtn">Write Comment</button>
+<button class="secondary-btn" id="showAllBtn">Show All</button>
+</div>
+</div>
+
+<!-- COMMENTS (AYRI KUTU) -->
+<div class="comments-box">
+<div id="comments"></div>
+</div>
+
+</div>
     <div id="comments"></div>
   </div>
 </div>
