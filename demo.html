@@ -40,7 +40,7 @@ font-size:14px; /* 👈 1 boyut büyüttük */
 flex:1;
 background:#334155;
 border-radius:16px;
-padding:0; /* 👈 KRİTİK */
+padding: 20px; /* 👈 KRİTİK */
 max-height:70vh;
 overflow-y:auto;
 position: relative;
@@ -156,13 +156,13 @@ text-decoration:underline;
 #comments{
 position: relative;
 z-index: 1;
-margin-top: 10px; /* 👈 KRİTİK */
 }
 .track-title{
 box-shadow: 0 2px 0 #334155;
 }
-#comments{
-padding:20px;
+.track-title{
+margin-left:-20px;
+margin-right:-20px;
 }
 </style>
 </head>
@@ -200,7 +200,7 @@ padding:20px;
 <div class="main">
   <div style="display:flex;flex-direction:column;width:22%;gap:8px;">
     <div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:10px 16px;text-align:center;">
-      <span style="font-size:13px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;">Şarkılar</span>
+      <span id="tracksLabel" style="font-size:13px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;">Şarkılar</span>
     </div>
     <div class="left" id="trackList" style="width:100%;box-sizing:border-box;"></div>
   </div>
@@ -410,7 +410,13 @@ function updateToggleBtn(){
 function toggleLangUI(){
  document.getElementById('btn-en').classList.toggle('active',lang==='en');
  document.getElementById('btn-tr').classList.toggle('active',lang==='tr');
+const tracksLabel = document.getElementById("tracksLabel");
 
+if(lang === 'tr'){
+tracksLabel.innerText = "Şarkılar";
+}else{
+tracksLabel.innerText = "Tracks";
+}
  if(lang==='tr'){
 searchInput.placeholder="Şarkı ara...";
 writeBtn.innerText="Yorum Yaz";
@@ -530,3 +536,4 @@ TrackSays is not affiliated with any music labels, artists, or streaming platfor
 </footer>
 </body>
 </html>
+
