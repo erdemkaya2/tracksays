@@ -112,7 +112,23 @@ background: #38bdf8;
 color: #020617;
 font-weight: 600;
 }
+.footer{
+margin-top:20px;
+padding:20px 10px;
+text-align:center;
+font-size:12px;
+color:#64748b;
+border-top:1px solid rgba(255,255,255,0.05);
+}
 
+.footer a{
+color:#38bdf8;
+text-decoration:none;
+}
+
+.footer a:hover{
+text-decoration:underline;
+}
 </style>
 </head>
 <body>
@@ -361,15 +377,26 @@ function toggleLangUI(){
  document.getElementById('btn-tr').classList.toggle('active',lang==='tr');
 
  if(lang==='tr'){
-   searchInput.placeholder="Şarkı ara...";
-   writeBtn.innerText="Yorum Yaz";
- }else{
-   searchInput.placeholder="Search songs...";
-   writeBtn.innerText="Write Comment";
- }
- updateToggleBtn();
+searchInput.placeholder="Şarkı ara...";
+writeBtn.innerText="Yorum Yaz";
+
+document.getElementById("footerText").innerHTML = `© 2026 TrackSays. Tüm hakları saklıdır. 
+<br>
+Tüm şarkı isimleri, sanatçı adları ve ilgili içerikler yalnızca demo amaçlıdır. 
+<br>
+TrackSays herhangi bir müzik şirketi, sanatçı veya platform ile bağlantılı değildir. 
+<br>
+<a href="#">Gizlilik Politikası</a> · <a href="#">Kullanım Şartları</a>`;
+
+}else{
+searchInput.placeholder="Search songs...";
+writeBtn.innerText="Write Comment";
+
+document.getElementById("footerText").innerHTML = `EN METİN`;
 }
 
+updateToggleBtn();
+}
 /* COMMENTS */
 const comments=document.getElementById('comments');
 const trackTitle=document.getElementById('trackTitle');
@@ -455,6 +482,16 @@ updateToggleBtn();
 
 });
 </script>
-
+<footer class="footer">
+<div class="footer-content" id="footerText">
+© 2026 TrackSays. All rights reserved. 
+<br>
+All song titles, artist names, and related content are used for demonstration purposes only. 
+<br>
+TrackSays is not affiliated with any music labels, artists, or streaming platforms. 
+<br>
+<a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>
+</div>
+</footer>
 </body>
 </html>
