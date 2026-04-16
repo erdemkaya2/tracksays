@@ -7,14 +7,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body { margin:0; font-family:'Inter',sans-serif; background:radial-gradient(circle at top,#1e293b,#020617); color:#e2e8f0; display:flex; align-items:center; justify-content:center; height:100vh; overflow:hidden; }
+
     .lang-toggle{position:absolute;top:20px;right:30px;display:flex;background:rgba(30,41,59,0.8);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.1)}
     .lang-btn{padding:8px 14px;cursor:pointer;font-size:13px;color:#94a3b8;transition:.3s}
     .lang-btn.active{background:#38bdf8;color:#020617;font-weight:600}
+
     .container{text-align:center;max-width:700px;padding:20px;animation:fadeIn 1.5s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    h1{font-size:56px;margin-bottom:10px;letter-spacing:-1px}
+
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .brand svg{
+      width:48px;
+      height:48px;
+    }
+
+    .brand span{
+      font-size:48px;
+      font-weight:600;
+      letter-spacing:-1px;
+      background:linear-gradient(90deg,#38bdf8,#0ea5e9);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
     h2{font-weight:300;color:#94a3b8;margin-bottom:30px}
-    .badge{display:inline-block;background:#38bdf8;color:#020617;padding:6px 14px;border-radius:999px;font-size:12px;margin-bottom:20px;font-weight:600}
 
     .entry-box{background:rgba(30,41,59,0.6);padding:14px 20px;border-radius:16px;margin-top:10px;min-height:60px;transition:opacity .6s ease}
     .entry-box.fade{opacity:0}
@@ -56,8 +79,15 @@
 <div class="pulse"></div>
 
 <div class="container">
-  <div class="badge">🎧 TrackSays is coming</div>
-  <h1>TrackSays</h1>
+
+  <div class="brand">
+    <svg viewBox="0 0 64 64" fill="none">
+      <path d="M12 14C12 10 15 8 19 8H45C49 8 52 10 52 14V34C52 38 49 40 45 40H28L18 50V40H19C15 40 12 38 12 34V14Z" stroke="#38bdf8" stroke-width="2.5"/>
+      <path d="M22 26V30M26 22V34M30 24V32M34 20V36M38 24V32M42 26V30" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span>TrackSays</span>
+  </div>
+
   <h2 id="subtitle">
     <span id="mainLine">Songs speak. People write.</span><br>
     <span id="subLine" style="font-size:16px; color:#64748b;">What do you hear?</span>
@@ -91,7 +121,6 @@ const entries = {
     {track:"Şımarık – Tarkan", text:"Playful, iconic, and impossible not to smile."},
     {track:"Aya Benzer – Mustafa Sandal", text:"Light, catchy, like a summer night."},
     {track:"Gia – Despina Vandi", text:"Pure energy with a touch of attitude."},
-    {track:"Ti Mou Ekanes – Konstantinos Argiros", text:"Emotional but still powerful."},
     {track:"Bohemian Rhapsody – Queen", text:"Chaos, but somehow perfect."}
   ],
   tr: [
@@ -103,27 +132,12 @@ const entries = {
     {track:"Şımarık – Tarkan", text:"90’lar Türk popunun en saf hali."},
     {track:"Aya Benzer – Mustafa Sandal", text:"Yaz gecesi gibi hafif ve akılda kalıcı."},
     {track:"Gia – Despina Vandi", text:"Enerji ve tavrın birleşimi."},
-    {track:"Ti Mou Ekanes – Konstantinos Argiros", text:"Duygusal ama güçlü."},
     {track:"Bohemian Rhapsody – Queen", text:"Kaos ama mükemmel."}
   ]
 };
 
 let currentLang = 'en';
 let index = 0;
-let typingSpeed = 30;
-
-function typeText(text, element){
-  element.innerHTML = '';
-  let i = 0;
-  function typing(){
-    if(i < text.length){
-      element.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(typing, typingSpeed);
-    }
-  }
-  typing();
-}
 
 function rotateEntries(){
   const box = document.getElementById('box');
@@ -132,7 +146,7 @@ function rotateEntries(){
   setTimeout(()=>{
     const data = entries[currentLang];
     document.getElementById('track').innerText = data[index].track;
-    typeText('"'+data[index].text+'"', document.getElementById('entry'));
+    document.getElementById('entry').innerText = '"' + data[index].text + '"';
     index = (index + 1) % data.length;
     box.classList.remove('fade');
   }, 300);
