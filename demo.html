@@ -21,7 +21,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
 
 /* FIX 3: Sol liste daha dar */
 .main{display:flex;gap:20px;padding:20px 40px}
-.left{width:22%;background:rgba(30,41,59,0.6);border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto}
+.left{background:rgba(30,41,59,0.6);border-radius:16px;padding:16px;max-height:65vh;overflow-y:auto}
 .track{display:flex;justify-content:space-between;padding:8px;border-radius:8px;cursor:pointer}
 .track:hover{background:rgba(56,189,248,0.1)}
 
@@ -87,7 +87,12 @@ mark{background:#38bdf8;color:#020617;border-radius:3px;padding:0 2px}
 </div>
 
 <div class="main">
-  <div class="left" id="trackList"></div>
+  <div style="display:flex;flex-direction:column;width:22%;gap:8px;">
+    <div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:10px 16px;text-align:center;">
+      <span style="font-size:13px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;">Şarkılar</span>
+    </div>
+    <div class="left" id="trackList" style="width:100%;box-sizing:border-box;"></div>
+  </div>
 
   <div class="right">
     <div class="track-title">
