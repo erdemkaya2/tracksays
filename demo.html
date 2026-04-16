@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrackSays</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle at top,#1e293b,#020617);color:#e2e8f0}
+.header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px}
+.header-right{display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:600}
+.logo svg{width:60px;height:60px}
+.auth button{margin-left:6px;padding:8px 14px;border-radius:8px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;cursor:pointer}
+.lang{display:flex;gap:6px}
+.lang-btn{font-size:12px;color:#94a3b8;padding:4px 8px;border-radius:6px;cursor:pointer}
+.lang-btn.active{background:#38bdf8;color:#020617}
+.main{display:flex;gap:20px;padding:20px 40px}
+.left{width:32%;background:rgba(30,41,59,0.6);border-radius:16px;padding:20px;max-height:70vh;overflow-y:auto}
+.track{display:flex;justify-content:space-between;padding:10px;border-radius:8px;cursor:pointer}
+.track:hover{background:rgba(56,189,248,0.1)}
+.count{font-size:12px;color:#94a3b8}
+.count strong{color:#38bdf8;font-size:14px}
+.right{flex:1;background:rgba(51,65,85,0.9);border-radius:16px;padding:20px;max-height:70vh;overflow-y:auto}
+.track-title{font-size:22px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#38bdf8}
+.actions{display:flex;gap:10px}
+.primary-btn{background:#38bdf8;color:#020617;border:none;padding:6px 12px;border-radius:8px;font-weight:600;cursor:pointer}
+.secondary-btn{font-size:12px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;padding:4px 8px;border-radius:6px;cursor:pointer}
+.comment{padding:15px;border-bottom:1px solid rgba(255,255,255,0.05);position:relative}
+.comment-text{font-size:15px;margin-bottom:10px}
+.meta{font-size:12px;color:#64748b}
+.user{position:absolute;right:10px;bottom:5px;font-size:12px;color:#38bdf8}
+.footer{text-align:center;padding:20px;font-size:12px;color:#64748b}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <svg viewBox="0 0 64 64" fill="none">
+      <path d="M12 14C12 10 15 8 19 8H45C49 8 52 10 52 14V34C52 38 49 40 45 40H28L18 50V40H19C15 40 12 38 12 34V14Z" stroke="#38bdf8" stroke-width="2.5"/>
+      <path d="M22 26V30M26 22V34M30 24V32M34 20V36M38 24V32M42 26V30" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    TrackSays
+  </div>
+
+  <div class="header-right">
+    <div class="lang">
+      <div class="lang-btn active" id="btn-en">EN</div>
+      <div class="lang-btn" id="btn-tr">TR</div>
+    </div>
+
+    <div class="auth">
+      <button id="signup">Sign Up</button>
+      <button id="login">Log In</button>
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;justify-content:center;margin-top:10px;">
+  <input id="searchInput" placeholder="Search songs..." 
+    style="width:400px;max-width:80%;padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.4);background:rgba(15,23,42,0.8);color:#e2e8f0;outline:none;">
+</div>
+
+<!-- AUTOCOMPLETE DROPDOWN -->
+<div id="autocompleteBox" style="position:absolute;width:400px;max-width:80%;background:#0f172a;border:1px solid rgba(56,189,248,0.3);border-radius:10px;display:none;z-index:10"></div>
+
+<div class="main">
+  <div class="left" id="trackList">
+    <h3 id="listTitle">Latest Entries</h3>
+  </div>
+
+  <div class="right">
+    <div class="track-title">
+      <span id="trackTitle"></span>
+      <div class="actions">
+        <button class="primary-btn" id="writeBtn">Write Comment</button>
+        <button class="secondary-btn" id="showAllBtn">Show All</button>
+      </div>
+    </div>
+    <div id="comments"></div>
+  </div>
+</div>
+
+<div class="footer">© 2026 TrackSays. All rights reserved.</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+let lang = 'en';
+
+const tracks=[
+"Wonderwall – Oasis","Şımarık – Tarkan","Aya Benzer – Mustafa Sandal","No Scrubs – TLC","Smells Like Teen Spirit – Nirvana",
+"Losing My Religion – R.E.M.","I Want It That Way – Backstreet Boys","My Heart Will Go On – Celine Dion",
+"Gia – Despina Vandi","Ti Mou Ekanes – Argiros","Viva La Vida – Coldplay","Fix You – Coldplay",
+"Bohemian Rhapsody – Queen","Creep – Radiohead","Shape of You – Ed Sheeran","Nightcall – Kavinsky",
+"Dudu – Tarkan","Wannabe – Spice Girls","Don’t Speak – No Doubt","Nothing Else Matters – Metallica"
+];
+
+const templates=[
+()=>"Harika bir vibe.",
+()=>"Her dinleyişte farklı.",
+()=>"Efsane.",
+()=>"Çok iyi gidiyor.",
+()=>"Bağımlılık yaptı"
+];
+
+const cache={};
+const dailyCounts={};
+const totalCounts={};
+
+function generate(track){
+ if(cache[track]) return cache[track];
+ const total = Math.floor(Math.random()*1000)+1;
+ totalCounts[track]=total;
+ const arr=[];
+ for(let i=0;i<total;i++){
+   const fn=templates[Math.floor(Math.random()*templates.length)];
+   arr.push(fn());
+ }
+ cache[track]=arr;
+ return arr;
+}
+
+const trackList=document.getElementById('trackList');
+const comments=document.getElementById('comments');
+const trackTitle=document.getElementById('trackTitle');
+const searchInput=document.getElementById('searchInput');
+
+function renderTrackList(filter=''){
+ trackList.innerHTML = '<h3 id="listTitle">'+(lang==='tr'?'Son Entryler':'Latest Entries')+'</h3>';
+
+ tracks
+  .filter(t=>t.toLowerCase().includes(filter.toLowerCase()))
+  .forEach(t=>{
+   const all = generate(t);
+   const total = totalCounts[t];
+   const daily = Math.floor(Math.random()*Math.min(25,total)) + 1;
+   dailyCounts[t]=daily;
+
+   const div=document.createElement('div');
+   div.className='track';
+   div.innerHTML=`<span>${t}</span><span class='count'><strong>${daily}</strong> (${total})</span>`;
+   div.onclick=()=>renderComments(t);
+   trackList.appendChild(div);
+  });
+}
+
+renderTrackList();
+
+const autocompleteBox=document.getElementById('autocompleteBox');
+
+function positionAutocomplete(){
+  const rect = searchInput.getBoundingClientRect();
+  autocompleteBox.style.top = (window.scrollY + rect.bottom + 6) + 'px';
+  autocompleteBox.style.left = (window.scrollX + rect.left + rect.width/2) + 'px';
+  autocompleteBox.style.transform = 'translateX(-50%)';
+}
+
+searchInput.addEventListener('input', (e)=>{
+ const value=e.target.value.toLowerCase();
+
+ // DO NOT filter left list anymore
+
+ autocompleteBox.innerHTML='';
+
+ autocompleteBox.innerHTML='';
+
+ if(!value){
+   autocompleteBox.style.display='none';
+   return;
+ }
+
+ const filtered=tracks.filter(t=>t.toLowerCase().includes(value)).slice(0,5);
+
+ if(filtered.length===0){
+   autocompleteBox.style.display='none';
+   return;
+ }
+
+ filtered.forEach(track=>{
+   const item=document.createElement('div');
+   item.style.padding='10px';
+   item.style.cursor='pointer';
+   item.style.borderBottom='1px solid rgba(255,255,255,0.05)';
+
+   const regex = new RegExp(`(${value})`, 'gi');
+   const highlighted = track.replace(regex, '<span style="color:#38bdf8;font-weight:600;">$1</span>');
+   item.innerHTML = highlighted;
+
+   item.onclick=()=>{
+     searchInput.value=track;
+     autocompleteBox.style.display='none';
+     renderComments(track,1);
+   };
+
+   item.onmouseover=()=>item.style.background='rgba(56,189,248,0.1)';
+   item.onmouseout=()=>item.style.background='transparent';
+
+   autocompleteBox.appendChild(item);
+ });
+
+ autocompleteBox.style.display='block';
+ positionAutocomplete();
+});
+
+searchInput.addEventListener('keydown', (e)=>{
+ if(e.key === 'Enter'){
+   const filtered = tracks.filter(t=>t.toLowerCase().includes(searchInput.value.toLowerCase()));
+   if(filtered.length > 0){
+     renderComments(filtered[0],1);
+     autocompleteBox.style.display='none';
+   }
+ }
+});
+
+let currentPage=1;
+const perPage=20;
+let showAll=false;
+
+function renderComments(track,page=1){
+ currentPage=page;
+ trackTitle.innerText=track;
+ comments.innerHTML='';
+
+ const all=generate(track);
+ const limit = showAll ? all.length : dailyCounts[track];
+ const visible = all.slice(0, limit);
+
+ const start=(page-1)*perPage;
+ const end=start+perPage;
+ const pageData=visible.slice(start,end);
+
+ pageData.forEach((c,i)=>{
+   const div=document.createElement('div');
+   div.className='comment';
+   div.innerHTML=`
+     <div class='comment-text'>${c}</div>
+     <div class='meta'>${start+i+1}h ago</div>
+     <div class='user'>user${start+i+1}</div>
+   `;
+   comments.appendChild(div);
+ });
+
+ renderPagination(track, visible.length);
+}
+
+function renderPagination(track,total){
+ const totalPages=Math.ceil(total/perPage);
+ const nav=document.createElement('div');
+ nav.style.marginTop='15px';
+
+ for(let i=1;i<=totalPages;i++){
+   const btn=document.createElement('button');
+   btn.innerText=i;
+   btn.style.marginRight='5px';
+   btn.style.padding='5px 10px';
+   btn.style.background=i===currentPage?'#38bdf8':'transparent';
+   btn.style.color=i===currentPage?'#020617':'#38bdf8';
+   btn.style.border='1px solid #38bdf8';
+   btn.style.borderRadius='6px';
+   btn.onclick=()=>renderComments(track,i);
+   nav.appendChild(btn);
+ }
+
+ comments.appendChild(nav);
+}
+
+const showAllBtn=document.getElementById('showAllBtn');
+showAllBtn.onclick=()=>{
+ showAll=!showAll;
+ showAllBtn.innerText = lang==='tr' ? (showAll ? 'Son 24 Saat' : 'Tümünü Gör') : (showAll ? 'Last 24h' : 'Show All');
+ renderComments(trackTitle.innerText || tracks[0],1);
+};
+
+const btnEn=document.getElementById('btn-en');
+const btnTr=document.getElementById('btn-tr');
+
+btnEn.onclick=()=>setLang('en');
+btnTr.onclick=()=>setLang('tr');
+
+function setLang(newLang){
+ lang=newLang;
+
+ btnEn.classList.toggle('active', lang==='en');
+ btnTr.classList.toggle('active', lang==='tr');
+
+ if(lang==='tr'){
+   document.getElementById('listTitle').innerText='Son Entryler';
+   document.getElementById('signup').innerText='Üye Ol';
+   document.getElementById('login').innerText='Giriş';
+   document.getElementById('writeBtn').innerText='Yorum Yaz';
+   searchInput.placeholder = 'Şarkı ara...';
+   showAllBtn.innerText = showAll ? 'Son 24 Saat' : 'Tümünü Gör';
+ } else {
+   document.getElementById('listTitle').innerText='Latest Entries';
+   document.getElementById('signup').innerText='Sign Up';
+   document.getElementById('login').innerText='Log In';
+   document.getElementById('writeBtn').innerText='Write Comment';
+   searchInput.placeholder = 'Search songs...';
+   showAllBtn.innerText = showAll ? 'Last 24h' : 'Show All';
+ }
+
+ renderTrackList(searchInput.value);
+}
+
+// close autocomplete when clicking outside
+document.addEventListener('click', (e)=>{
+ if(!searchInput.contains(e.target) && !autocompleteBox.contains(e.target)){
+   autocompleteBox.style.display='none';
+ }
+});
+
+renderComments(tracks[0]);
+
+});
+</script>
+
+</body>
+</html>
