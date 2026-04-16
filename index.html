@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackSays - Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #1e293b, #020617);
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .lang-toggle {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      display: flex;
+      background: rgba(30,41,59,0.8);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lang-btn {
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #94a3b8;
+      transition: 0.3s;
+    }
+
+    .lang-btn.active {
+      background: #38bdf8;
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 700px;
+      padding: 20px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);} 
+      to {opacity: 1; transform: translateY(0);} 
+    }
+
+    h1 {
+      font-size: 56px;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      font-weight: 300;
+      color: #94a3b8;
+      margin-bottom: 40px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #020617;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .locked-box {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px dashed rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 16px;
+      margin-top: 20px;
+    }
+
+    .lock-text {
+      color: #94a3b8;
+      font-size: 15px;
+    }
+
+    .cta {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    .cta strong {
+      color: #38bdf8;
+    }
+
+    .pulse {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(56,189,248,0.15), transparent);
+      border-radius: 50%;
+      animation: pulse 4s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 0.2; }
+      100% { transform: scale(0.9); opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lang-toggle">
+    <div class="lang-btn active" onclick="setLang('en')">EN</div>
+    <div class="lang-btn" onclick="setLang('tr')">TR</div>
+  </div>
+
+  <div class="pulse"></div>
+
+  <div class="container">
+    <div class="badge">🎧 TrackSays is coming</div>
+    <h1>TrackSays</h1>
+    <h2 id="subtitle">Every track has something to say. People just write it down.</h2>
+
+    <div class="locked-box">
+      <div class="lock-text" id="lockText">
+        Comments are not open yet. <br>
+        Be ready to write what your favorite tracks say to you.
+      </div>
+    </div>
+
+    <div class="cta" id="cta">
+      Be among the first to leave your mark on music. <br>
+      <strong>Launching soon.</strong>
+    </div>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+
+      if (lang === 'tr') {
+        document.querySelectorAll('.lang-btn')[1].classList.add('active');
+        document.getElementById("subtitle").innerText = "Her şarkının söyleyecek bir şeyi vardır. İnsanlar sadece yazar.";
+        document.getElementById("cta").innerHTML = "Müzikte izini bırakan ilk kişilerden biri ol. <br><strong>Çok yakında.</strong>";
+        document.getElementById("lockText").innerHTML = "Yorumlar henüz açık değil. <br> Favori şarkının sana ne söylediğini yazmaya hazır ol.";
+      } else {
+        document.querySelectorAll('.lang-btn')[0].classList.add('active');
+        document.getElementById("subtitle").innerText = "Every track has something to say. People just write it down.";
+        document.getElementById("cta").innerHTML = "Be among the first to leave your mark on music. <br><strong>Launching soon.</strong>";
+        document.getElementById("lockText").innerHTML = "Comments are not open yet. <br> Be ready to write what your favorite tracks say to you.";
+      }
+    }
+  </script>
+
+</body>
+</html>
