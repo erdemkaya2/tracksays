@@ -6,161 +6,133 @@
   <title>TrackSays - Coming Soon</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top, #1e293b, #020617);
-      color: #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
-    }
+    body { margin:0; font-family:'Inter',sans-serif; background:radial-gradient(circle at top,#1e293b,#020617); color:#e2e8f0; display:flex; align-items:center; justify-content:center; height:100vh; overflow:hidden; }
+    .lang-toggle{position:absolute;top:20px;right:30px;display:flex;background:rgba(30,41,59,0.8);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.1)}
+    .lang-btn{padding:8px 14px;cursor:pointer;font-size:13px;color:#94a3b8;transition:.3s}
+    .lang-btn.active{background:#38bdf8;color:#020617;font-weight:600}
+    .container{text-align:center;max-width:700px;padding:20px;animation:fadeIn 1.5s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    h1{font-size:56px;margin-bottom:10px;letter-spacing:-1px}
+    h2{font-weight:300;color:#94a3b8;margin-bottom:30px}
+    .badge{display:inline-block;background:#38bdf8;color:#020617;padding:6px 14px;border-radius:999px;font-size:12px;margin-bottom:20px;font-weight:600}
 
-    .lang-toggle {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      display: flex;
-      background: rgba(30,41,59,0.8);
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
+    .entry-box{background:rgba(30,41,59,0.6);padding:14px 20px;border-radius:16px;margin-top:10px;min-height:60px;transition:opacity .6s ease}
+    .entry-box.fade{opacity:0}
 
-    .lang-btn {
-      padding: 8px 14px;
-      cursor: pointer;
-      font-size: 13px;
-      color: #94a3b8;
-      transition: 0.3s;
-    }
+    .entry-text{font-size:16px;line-height:1.5;white-space:pre-line}
+    .track{font-size:13px;color:#38bdf8;margin-bottom:8px}
 
-    .lang-btn.active {
-      background: #38bdf8;
-      color: #020617;
-      font-weight: 600;
-    }
+    .cta{margin-top:30px;font-size:14px;color:#94a3b8}
+    .cta strong{color:#38bdf8}
 
-    .container {
-      text-align: center;
-      max-width: 700px;
-      padding: 20px;
-      animation: fadeIn 1.5s ease;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);} 
-      to {opacity: 1; transform: translateY(0);} 
-    }
-
-    h1 {
-      font-size: 56px;
-      margin-bottom: 10px;
-      letter-spacing: -1px;
-    }
-
-    h2 {
-      font-weight: 300;
-      color: #94a3b8;
-      margin-bottom: 40px;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #38bdf8;
-      color: #020617;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 12px;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    .locked-box {
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px dashed rgba(255,255,255,0.1);
-      padding: 30px;
-      border-radius: 16px;
-      margin-top: 20px;
-    }
-
-    .lock-text {
-      color: #94a3b8;
-      font-size: 15px;
-    }
-
-    .cta {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #94a3b8;
-    }
-
-    .cta strong {
-      color: #38bdf8;
-    }
-
-    .pulse {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(56,189,248,0.15), transparent);
-      border-radius: 50%;
-      animation: pulse 4s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.9); opacity: 0.6; }
-      50% { transform: scale(1.2); opacity: 0.2; }
-      100% { transform: scale(0.9); opacity: 0.6; }
-    }
+    .pulse{position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(56,189,248,0.15),transparent);border-radius:50%;animation:pulse 4s infinite}
+    @keyframes pulse{0%{transform:scale(.9);opacity:.6}50%{transform:scale(1.2);opacity:.2}100%{transform:scale(.9);opacity:.6}}
   </style>
 </head>
 <body>
 
-  <div class="lang-toggle">
-    <div class="lang-btn active" onclick="setLang('en')">EN</div>
-    <div class="lang-btn" onclick="setLang('tr')">TR</div>
+<div class="lang-toggle">
+  <div class="lang-btn active" onclick="setLang('en')">EN</div>
+  <div class="lang-btn" onclick="setLang('tr')">TR</div>
+</div>
+
+<div class="pulse"></div>
+
+<div class="container">
+  <div class="badge">🎧 TrackSays is coming</div>
+  <h1>TrackSays</h1>
+  <h2 id="subtitle"><span id="mainLine">Songs speak. People write.</span><br><span id="subLine" style="font-size:16px; color:#64748b;">What do you hear?</span></h2>
+
+  <div class="entry-box" id="box">
+    <div class="track" id="track"></div>
+    <div class="entry-text" id="entry"></div>
   </div>
 
-  <div class="pulse"></div>
-
-  <div class="container">
-    <div class="badge">🎧 TrackSays is coming</div>
-    <h1>TrackSays</h1>
-    <h2 id="subtitle">Every track has something to say. People just write it down.</h2>
-
-    <div class="locked-box">
-      <div class="lock-text" id="lockText">
-        Comments are not open yet. <br>
-        Be ready to write what your favorite tracks say to you.
-      </div>
-    </div>
-
-    <div class="cta" id="cta">
-      Be among the first to leave your mark on music. <br>
-      <strong>Launching soon.</strong>
-    </div>
+  <div class="cta" id="cta">
+    Be among the first to leave your mark on music. <br>
+    <strong>Launching soon.</strong>
   </div>
+</div>
 
-  <script>
-    function setLang(lang) {
-      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+<script>
+const entries = {
+  en: [
+    {track:"Wonderwall – Oasis", text:"Feels like a memory you never actually lived, but somehow miss."},
+    {track:"Smells Like Teen Spirit – Nirvana", text:"Raw energy that never gets old."},
+    {track:"Losing My Religion – R.E.M.", text:"Confusion and obsession in one loop."},
+    {track:"I Want It That Way – Backstreet Boys", text:"You don’t question it, you just sing along."},
+    {track:"My Heart Will Go On – Celine Dion", text:"Dramatic, emotional, unforgettable."},
+    {track:"Şımarık – Tarkan", text:"Playful, iconic, and impossible not to smile."},
+    {track:"Aya Benzer – Mustafa Sandal", text:"Light, catchy, like a summer night."},
+    {track:"Gia – Despina Vandi", text:"Pure energy with a touch of attitude."},
+    {track:"Ti Mou Ekanes – Konstantinos Argiros", text:"Emotional but still powerful."},
+    {track:"Bohemian Rhapsody – Queen", text:"Chaos, but somehow perfect."}
+  ],
+  tr: [
+    {track:"Wonderwall – Oasis", text:"Hiç yaşamadığın ama özlüyormuş gibi hissettiren bir anı."},
+    {track:"Smells Like Teen Spirit – Nirvana", text:"Eskimeyen saf enerji."},
+    {track:"Losing My Religion – R.E.M.", text:"Kafa karışıklığı ve takıntının birleşimi."},
+    {track:"I Want It That Way – Backstreet Boys", text:"Sorgulamazsın, sadece eşlik edersin."},
+    {track:"My Heart Will Go On – Celine Dion", text:"Dramatik, duygusal, unutulmaz."},
+    {track:"Şımarık – Tarkan", text:"90’lar Türk popunun en saf hali."},
+    {track:"Aya Benzer – Mustafa Sandal", text:"Yaz gecesi gibi hafif ve akılda kalıcı."},
+    {track:"Gia – Despina Vandi", text:"Enerji ve tavrın birleşimi."},
+    {track:"Ti Mou Ekanes – Konstantinos Argiros", text:"Duygusal ama güçlü."},
+    {track:"Bohemian Rhapsody – Queen", text:"Kaos ama mükemmel."}
+  ]
+};
 
-      if (lang === 'tr') {
-        document.querySelectorAll('.lang-btn')[1].classList.add('active');
-        document.getElementById("subtitle").innerText = "Her şarkının söyleyecek bir şeyi vardır. İnsanlar sadece yazar.";
-        document.getElementById("cta").innerHTML = "Müzikte izini bırakan ilk kişilerden biri ol. <br><strong>Çok yakında.</strong>";
-        document.getElementById("lockText").innerHTML = "Yorumlar henüz açık değil. <br> Favori şarkının sana ne söylediğini yazmaya hazır ol.";
-      } else {
-        document.querySelectorAll('.lang-btn')[0].classList.add('active');
-        document.getElementById("subtitle").innerText = "Every track has something to say. People just write it down.";
-        document.getElementById("cta").innerHTML = "Be among the first to leave your mark on music. <br><strong>Launching soon.</strong>";
-        document.getElementById("lockText").innerHTML = "Comments are not open yet. <br> Be ready to write what your favorite tracks say to you.";
-      }
+let currentLang = 'en';
+let index = 0;
+let typingSpeed = 30;
+
+function typeText(text, element){
+  element.innerHTML = '';
+  let i = 0;
+  function typing(){
+    if(i < text.length){
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, typingSpeed);
     }
-  </script>
+  }
+  typing();
+}
+
+function rotateEntries(){
+  const box = document.getElementById('box');
+  box.classList.add('fade');
+
+  setTimeout(()=>{
+    const data = entries[currentLang];
+    document.getElementById('track').innerText = data[index].track;
+    typeText('"'+data[index].text+'"', document.getElementById('entry'));
+    index = (index + 1) % data.length;
+    box.classList.remove('fade');
+  }, 300);
+}
+
+setInterval(rotateEntries, 4000);
+rotateEntries();
+
+function setLang(lang){
+  currentLang = lang;
+  index = 0;
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+  if(lang==='tr'){
+    document.querySelectorAll('.lang-btn')[1].classList.add('active');
+    document.getElementById('mainLine').innerText="Şarkılar konuşur. İnsanlar yazar.";
+    document.getElementById('subLine').innerText="Sen ne duyuyorsun?";
+    document.getElementById('cta').innerHTML="Müzikte izini bırakan ilk kişilerden biri ol.<br><strong>Çok yakında.</strong>";
+  }else{
+    document.querySelectorAll('.lang-btn')[0].classList.add('active');
+    document.getElementById('mainLine').innerText="Songs speak. People write.";
+    document.getElementById('subLine').innerText="What do you hear?";
+    document.getElementById('cta').innerHTML="Be among the first to leave your mark on music.<br><strong>Launching soon.</strong>";
+  }
+  rotateEntries();
+}
+</script>
 
 </body>
 </html>
