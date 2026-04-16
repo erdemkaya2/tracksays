@@ -10,28 +10,40 @@
 body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle at top,#1e293b,#020617);color:#e2e8f0}
 .header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px}
 .header-right{display:flex;align-items:center;gap:16px}
-.logo{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:600}
-.logo svg{width:60px;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:600}
+.logo svg{width:48px;height:48px}
+
 .auth button{margin-left:6px;padding:8px 14px;border-radius:8px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;cursor:pointer}
 .lang{display:flex;gap:6px}
 .lang-btn{font-size:12px;color:#94a3b8;padding:4px 8px;border-radius:6px;cursor:pointer}
 .lang-btn.active{background:#38bdf8;color:#020617}
+
 .main{display:flex;gap:20px;padding:20px 40px}
 .left{width:32%;background:rgba(30,41,59,0.6);border-radius:16px;padding:20px;max-height:70vh;overflow-y:auto}
 .track{display:flex;justify-content:space-between;padding:10px;border-radius:8px;cursor:pointer}
 .track:hover{background:rgba(56,189,248,0.1)}
+
 .count{font-size:12px;color:#94a3b8}
 .count strong{color:#38bdf8;font-size:14px}
+
 .right{flex:1;background:rgba(51,65,85,0.9);border-radius:16px;padding:20px;max-height:70vh;overflow-y:auto}
+
 .track-title{font-size:22px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#38bdf8}
+
 .actions{display:flex;gap:10px}
 .primary-btn{background:#38bdf8;color:#020617;border:none;padding:6px 12px;border-radius:8px;font-weight:600;cursor:pointer}
 .secondary-btn{font-size:12px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;padding:4px 8px;border-radius:6px;cursor:pointer}
+
 .comment{padding:15px;border-bottom:1px solid rgba(255,255,255,0.05);position:relative}
 .comment-text{font-size:15px;margin-bottom:10px}
 .meta{font-size:12px;color:#64748b}
 .user{position:absolute;right:10px;bottom:5px;font-size:12px;color:#38bdf8}
+
 .footer{text-align:center;padding:20px;font-size:12px;color:#64748b}
+
+/* 🎯 SENİN İSTEDİĞİN TASARIM */
+.track-name{font-weight:600;color:#e2e8f0}
+.artist-name{font-size:12px;color:#94a3b8;margin-left:6px}
 </style>
 </head>
 <body>
@@ -60,16 +72,13 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
 
 <div style="display:flex;justify-content:center;margin-top:10px;">
   <input id="searchInput" placeholder="Search songs..." 
-    style="width:400px;max-width:80%;padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.4);background:rgba(15,23,42,0.8);color:#e2e8f0;outline:none;">
+    style="width:400px;max-width:80%;padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.4);background:rgba(15,23,42,0.8);color:#e2e8f0;">
 </div>
 
-<!-- AUTOCOMPLETE DROPDOWN -->
-<div id="autocompleteBox" style="position:absolute;width:400px;max-width:80%;background:#0f172a;border:1px solid rgba(56,189,248,0.3);border-radius:10px;display:none;z-index:10"></div>
+<div id="autocompleteBox" style="position:absolute;width:400px;max-width:80%;background:#0f172a;border-radius:10px;display:none;"></div>
 
 <div class="main">
-  <div class="left" id="trackList">
-    <h3 id="listTitle">Latest Entries</h3>
-  </div>
+  <div class="left" id="trackList"></div>
 
   <div class="right">
     <div class="track-title">
@@ -83,12 +92,10 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
   </div>
 </div>
 
-<div class="footer">© 2026 TrackSays. All rights reserved.</div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 
-let lang = 'en';
+let lang='en';
 
 const tracks=[
 "Wonderwall – Oasis","Şımarık – Tarkan","Aya Benzer – Mustafa Sandal","No Scrubs – TLC","Smells Like Teen Spirit – Nirvana",
@@ -98,168 +105,102 @@ const tracks=[
 "Dudu – Tarkan","Wannabe – Spice Girls","Don’t Speak – No Doubt","Nothing Else Matters – Metallica"
 ];
 
-const templates=[
-()=>"Harika bir vibe.",
-()=>"Her dinleyişte farklı.",
-()=>"Efsane.",
-()=>"Çok iyi gidiyor.",
-()=>"Bağımlılık yaptı"
-];
+const templates=[()=> "Harika vibe.",()=> "Efsane.",()=> "Bağımlılık yaptı.",()=> "Her dinleyişte farklı.",()=> "Nostalji vurdu."];
 
-const cache={};
-const dailyCounts={};
-const totalCounts={};
+const userNames=["EgeKaan","LunaSky","MertAtlas","ZeynoWave","OrionX","DenizFlow","NovaPulse","ArdaStone","MilaEcho","KeremVibe","SelinAura","AtlasCore"];
+
+const cache={}, userCache={}, dailyCounts={}, totalCounts={};
 
 function generate(track){
  if(cache[track]) return cache[track];
- const total = Math.floor(Math.random()*1000)+1;
+ const total=Math.floor(Math.random()*1000)+200;
  totalCounts[track]=total;
  const arr=[];
  for(let i=0;i<total;i++){
-   const fn=templates[Math.floor(Math.random()*templates.length)];
-   arr.push(fn());
+   arr.push(templates[Math.floor(Math.random()*templates.length)]());
  }
  cache[track]=arr;
  return arr;
 }
 
 const trackList=document.getElementById('trackList');
-const comments=document.getElementById('comments');
-const trackTitle=document.getElementById('trackTitle');
-const searchInput=document.getElementById('searchInput');
 
-function renderTrackList(filter=''){
- trackList.innerHTML = '<h3 id="listTitle">'+(lang==='tr'?'Son Entryler':'Latest Entries')+'</h3>';
-
- tracks
-  .filter(t=>t.toLowerCase().includes(filter.toLowerCase()))
-  .forEach(t=>{
-   const all = generate(t);
-   const total = totalCounts[t];
-   const daily = Math.floor(Math.random()*Math.min(25,total)) + 1;
+function renderTrackList(){
+ trackList.innerHTML='';
+ tracks.forEach(t=>{
+   const parts=t.split(" – ");
+   const total=generate(t).length;
+   const daily=Math.floor(Math.random()*30)+1;
    dailyCounts[t]=daily;
 
    const div=document.createElement('div');
    div.className='track';
-   div.innerHTML=`<span>${t}</span><span class='count'><strong>${daily}</strong> (${total})</span>`;
+   div.innerHTML=`
+     <span>
+       <span class="track-name">${parts[0]}</span>
+       <span class="artist-name">– ${parts[1]}</span>
+     </span>
+     <span class="count"><strong>${daily}</strong> (${total})</span>
+   `;
    div.onclick=()=>renderComments(t);
    trackList.appendChild(div);
-  });
-}
-
-renderTrackList();
-
-const autocompleteBox=document.getElementById('autocompleteBox');
-
-function positionAutocomplete(){
-  const rect = searchInput.getBoundingClientRect();
-  autocompleteBox.style.top = (window.scrollY + rect.bottom + 6) + 'px';
-  autocompleteBox.style.left = (window.scrollX + rect.left + rect.width/2) + 'px';
-  autocompleteBox.style.transform = 'translateX(-50%)';
-}
-
-searchInput.addEventListener('input', (e)=>{
- const value=e.target.value.toLowerCase();
-
- // DO NOT filter left list anymore
-
- autocompleteBox.innerHTML='';
-
- autocompleteBox.innerHTML='';
-
- if(!value){
-   autocompleteBox.style.display='none';
-   return;
- }
-
- const filtered=tracks.filter(t=>t.toLowerCase().includes(value)).slice(0,5);
-
- if(filtered.length===0){
-   autocompleteBox.style.display='none';
-   return;
- }
-
- filtered.forEach(track=>{
-   const item=document.createElement('div');
-   item.style.padding='10px';
-   item.style.cursor='pointer';
-   item.style.borderBottom='1px solid rgba(255,255,255,0.05)';
-
-   const regex = new RegExp(`(${value})`, 'gi');
-   const highlighted = track.replace(regex, '<span style="color:#38bdf8;font-weight:600;">$1</span>');
-   item.innerHTML = highlighted;
-
-   item.onclick=()=>{
-     searchInput.value=track;
-     autocompleteBox.style.display='none';
-     renderComments(track,1);
-   };
-
-   item.onmouseover=()=>item.style.background='rgba(56,189,248,0.1)';
-   item.onmouseout=()=>item.style.background='transparent';
-
-   autocompleteBox.appendChild(item);
  });
+}
 
- autocompleteBox.style.display='block';
- positionAutocomplete();
-});
+const comments=document.getElementById('comments');
+const trackTitle=document.getElementById('trackTitle');
 
-searchInput.addEventListener('keydown', (e)=>{
- if(e.key === 'Enter'){
-   const filtered = tracks.filter(t=>t.toLowerCase().includes(searchInput.value.toLowerCase()));
-   if(filtered.length > 0){
-     renderComments(filtered[0],1);
-     autocompleteBox.style.display='none';
-   }
- }
-});
-
+let showAll=false;
 let currentPage=1;
 const perPage=20;
-let showAll=false;
 
 function renderComments(track,page=1){
  currentPage=page;
- trackTitle.innerText=track;
+
+ const parts=track.split(" – ");
+ trackTitle.innerHTML=`
+   <span class="track-name">${parts[0]}</span>
+   <span class="artist-name">– ${parts[1]}</span>
+ `;
+
  comments.innerHTML='';
 
  const all=generate(track);
- const limit = showAll ? all.length : dailyCounts[track];
- const visible = all.slice(0, limit);
+ const limit=showAll?all.length:dailyCounts[track];
+ const visible=all.slice(0,limit);
 
  const start=(page-1)*perPage;
- const end=start+perPage;
- const pageData=visible.slice(start,end);
+ const pageData=visible.slice(start,start+perPage);
 
  pageData.forEach((c,i)=>{
+   const idx=start+i;
+
+   if(!userCache[track]) userCache[track]={};
+   if(!userCache[track][idx]){
+     userCache[track][idx]=userNames[Math.floor(Math.random()*userNames.length)];
+   }
+
    const div=document.createElement('div');
    div.className='comment';
    div.innerHTML=`
-     <div class='comment-text'>${c}</div>
-     <div class='meta'>${start+i+1}h ago</div>
-     <div class='user'>user${start+i+1}</div>
+     <div class="comment-text">${c}</div>
+     <div class="meta">${idx+1}h ago</div>
+     <div class="user">${userCache[track][idx]}</div>
    `;
    comments.appendChild(div);
  });
 
- renderPagination(track, visible.length);
+ renderPagination(track,visible.length);
 }
 
 function renderPagination(track,total){
  const totalPages=Math.ceil(total/perPage);
  const nav=document.createElement('div');
- nav.style.marginTop='15px';
 
  for(let i=1;i<=totalPages;i++){
    const btn=document.createElement('button');
    btn.innerText=i;
-   btn.style.marginRight='5px';
-   btn.style.padding='5px 10px';
-   btn.style.background=i===currentPage?'#38bdf8':'transparent';
-   btn.style.color=i===currentPage?'#020617':'#38bdf8';
-   btn.style.border='1px solid #38bdf8';
-   btn.style.borderRadius='6px';
+   btn.style.margin='4px';
    btn.onclick=()=>renderComments(track,i);
    nav.appendChild(btn);
  }
@@ -267,51 +208,12 @@ function renderPagination(track,total){
  comments.appendChild(nav);
 }
 
-const showAllBtn=document.getElementById('showAllBtn');
-showAllBtn.onclick=()=>{
+document.getElementById('showAllBtn').onclick=()=>{
  showAll=!showAll;
- showAllBtn.innerText = lang==='tr' ? (showAll ? 'Son 24 Saat' : 'Tümünü Gör') : (showAll ? 'Last 24h' : 'Show All');
  renderComments(trackTitle.innerText || tracks[0],1);
 };
 
-const btnEn=document.getElementById('btn-en');
-const btnTr=document.getElementById('btn-tr');
-
-btnEn.onclick=()=>setLang('en');
-btnTr.onclick=()=>setLang('tr');
-
-function setLang(newLang){
- lang=newLang;
-
- btnEn.classList.toggle('active', lang==='en');
- btnTr.classList.toggle('active', lang==='tr');
-
- if(lang==='tr'){
-   document.getElementById('listTitle').innerText='Son Entryler';
-   document.getElementById('signup').innerText='Üye Ol';
-   document.getElementById('login').innerText='Giriş';
-   document.getElementById('writeBtn').innerText='Yorum Yaz';
-   searchInput.placeholder = 'Şarkı ara...';
-   showAllBtn.innerText = showAll ? 'Son 24 Saat' : 'Tümünü Gör';
- } else {
-   document.getElementById('listTitle').innerText='Latest Entries';
-   document.getElementById('signup').innerText='Sign Up';
-   document.getElementById('login').innerText='Log In';
-   document.getElementById('writeBtn').innerText='Write Comment';
-   searchInput.placeholder = 'Search songs...';
-   showAllBtn.innerText = showAll ? 'Last 24h' : 'Show All';
- }
-
- renderTrackList(searchInput.value);
-}
-
-// close autocomplete when clicking outside
-document.addEventListener('click', (e)=>{
- if(!searchInput.contains(e.target) && !autocompleteBox.contains(e.target)){
-   autocompleteBox.style.display='none';
- }
-});
-
+renderTrackList();
 renderComments(tracks[0]);
 
 });
