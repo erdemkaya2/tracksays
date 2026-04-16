@@ -421,7 +421,12 @@ function renderComments(track,page=1){
 }
 
 function renderPagination(track,total){
- const totalPages=Math.ceil(total/perPage);
+const totalPages=Math.ceil(total/perPage);
+
+/* 👇 KRİTİK KONTROL */
+if(totalPages <= 1){
+return; // pagination hiç oluşturulmaz
+}
  const nav=document.createElement('div');
 
  for(let i=1;i<=totalPages;i++){
