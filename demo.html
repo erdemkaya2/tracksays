@@ -36,10 +36,34 @@ font-size:14px; /* 👈 1 boyut büyüttük */
 .count{font-size:11px;color:#94a3b8}
 .count strong{color:#38bdf8;font-size:12px}
 
-.right{flex:1;background:rgba(51,65,85,0.9);border-radius:16px;padding:20px;max-height:70vh;overflow-y:auto}
+.right{
+flex:1;
+background:#334155;
+border-radius:16px;
+padding:0; /* 👈 KRİTİK */
+max-height:70vh;
+overflow-y:auto;
+position: relative;
+}
+.track-title{
+font-size:22px;
+margin-bottom:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:700;
+color:#38bdf8;
 
-.track-title{font-size:22px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#38bdf8}
+position: sticky;
+top: 0;
+z-index: 100; /* 👈 artırdık */
 
+background:#334155; /* 👈 TAM OPACITY */
+
+padding:12px 20px;
+
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
 .actions{display:flex;gap:10px}
 .primary-btn{background:#38bdf8;color:#020617;border:none;padding:6px 12px;border-radius:8px;font-weight:600;cursor:pointer}
 .secondary-btn{font-size:12px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;padding:4px 8px;border-radius:6px;cursor:pointer}
@@ -128,6 +152,17 @@ text-decoration:none;
 
 .footer a:hover{
 text-decoration:underline;
+}
+#comments{
+position: relative;
+z-index: 1;
+margin-top: 10px; /* 👈 KRİTİK */
+}
+.track-title{
+box-shadow: 0 2px 0 #334155;
+}
+#comments{
+padding:20px;
 }
 </style>
 </head>
