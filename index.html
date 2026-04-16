@@ -25,6 +25,23 @@
     .cta{margin-top:30px;font-size:14px;color:#94a3b8}
     .cta strong{color:#38bdf8}
 
+    .demo-btn{
+      display:inline-block;
+      padding:10px 20px;
+      background:#38bdf8;
+      color:#020617;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:600;
+      text-decoration:none;
+      transition:.3s;
+    }
+
+    .demo-btn:hover{
+      background:#0ea5e9;
+      transform:translateY(-1px);
+    }
+
     .pulse{position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(56,189,248,0.15),transparent);border-radius:50%;animation:pulse 4s infinite}
     @keyframes pulse{0%{transform:scale(.9);opacity:.6}50%{transform:scale(1.2);opacity:.2}100%{transform:scale(.9);opacity:.6}}
   </style>
@@ -41,7 +58,10 @@
 <div class="container">
   <div class="badge">🎧 TrackSays is coming</div>
   <h1>TrackSays</h1>
-  <h2 id="subtitle"><span id="mainLine">Songs speak. People write.</span><br><span id="subLine" style="font-size:16px; color:#64748b;">What do you hear?</span></h2>
+  <h2 id="subtitle">
+    <span id="mainLine">Songs speak. People write.</span><br>
+    <span id="subLine" style="font-size:16px; color:#64748b;">What do you hear?</span>
+  </h2>
 
   <div class="entry-box" id="box">
     <div class="track" id="track"></div>
@@ -50,7 +70,13 @@
 
   <div class="cta" id="cta">
     Be among the first to leave your mark on music. <br>
-    <strong>Launching soon.</strong>
+    <strong>Launching soon.</strong><br>
+    <span style="font-size:12px; color:#64748b;">
+      A full version will be made available in the near future.
+    </span>
+    <div style="margin-top:20px;">
+      <a href="demo.html" class="demo-btn">Access Demo</a>
+    </div>
   </div>
 </div>
 
@@ -119,17 +145,25 @@ function setLang(lang){
   currentLang = lang;
   index = 0;
   document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+
   if(lang==='tr'){
     document.querySelectorAll('.lang-btn')[1].classList.add('active');
     document.getElementById('mainLine').innerText="Şarkılar konuşur. İnsanlar yazar.";
     document.getElementById('subLine').innerText="Sen ne duyuyorsun?";
-    document.getElementById('cta').innerHTML="Müzikte izini bırakan ilk kişilerden biri ol.<br><strong>Çok yakında.</strong>";
+    document.getElementById('cta').innerHTML=
+      "Müzikte izini bırakan ilk kişilerden biri ol.<br><strong>Çok yakında.</strong><br>" +
+      "<span style='font-size:12px; color:#64748b;'>Demo sürüm kısa süre içerisinde kullanıma sunulacaktır.</span>" +
+      "<div style='margin-top:20px;'><a href='demo.html' class='demo-btn'>Demo'yu İncele</a></div>";
   }else{
     document.querySelectorAll('.lang-btn')[0].classList.add('active');
     document.getElementById('mainLine').innerText="Songs speak. People write.";
     document.getElementById('subLine').innerText="What do you hear?";
-    document.getElementById('cta').innerHTML="Be among the first to leave your mark on music.<br><strong>Launching soon.</strong>";
+    document.getElementById('cta').innerHTML=
+      "Be among the first to leave your mark on music.<br><strong>Launching soon.</strong><br>" +
+      "<span style='font-size:12px; color:#64748b;'>A full version will be made available in the near future.</span>" +
+      "<div style='margin-top:20px;'><a href='demo.html' class='demo-btn'>Access Demo</a></div>";
   }
+
   rotateEntries();
 }
 </script>
