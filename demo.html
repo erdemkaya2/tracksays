@@ -12,6 +12,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
 .header-right{display:flex;align-items:center;gap:16px}
 .logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:600}
 .logo svg{width:48px;height:48px}
+.demo-tag{font-size:12px;color:#94a3b8;margin-left:6px}
 
 .auth button{margin-left:6px;padding:8px 14px;border-radius:8px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;cursor:pointer}
 .lang{display:flex;gap:6px}
@@ -39,11 +40,14 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
 .meta{font-size:12px;color:#64748b}
 .user{position:absolute;right:10px;bottom:5px;font-size:12px;color:#38bdf8}
 
-.footer{text-align:center;padding:20px;font-size:12px;color:#64748b}
-
-/* 🎯 SENİN İSTEDİĞİN TASARIM */
 .track-name{font-weight:600;color:#e2e8f0}
 .artist-name{font-size:12px;color:#94a3b8;margin-left:6px}
+
+.autocomplete-item{padding:8px 12px;cursor:pointer}
+.autocomplete-item:hover,
+.autocomplete-item.active{background:#1e293b}
+
+mark{background:#38bdf8;color:#020617;border-radius:3px;padding:0 2px}
 </style>
 </head>
 <body>
@@ -54,7 +58,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
       <path d="M12 14C12 10 15 8 19 8H45C49 8 52 10 52 14V34C52 38 49 40 45 40H28L18 50V40H19C15 40 12 38 12 34V14Z" stroke="#38bdf8" stroke-width="2.5"/>
       <path d="M22 26V30M26 22V34M30 24V32M34 20V36M38 24V32M42 26V30" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
-    TrackSays
+    TrackSays <span class="demo-tag">(Demo)</span>
   </div>
 
   <div class="header-right">
@@ -70,12 +74,11 @@ body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle a
   </div>
 </div>
 
-<div style="display:flex;justify-content:center;margin-top:10px;">
+<div style="display:flex;justify-content:center;margin-top:10px;position:relative;">
   <input id="searchInput" placeholder="Search songs..." 
     style="width:400px;max-width:80%;padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.4);background:rgba(15,23,42,0.8);color:#e2e8f0;">
+  <div id="autocompleteBox" style="position:absolute;top:42px;width:400px;max-width:80%;background:#0f172a;border-radius:10px;display:none;z-index:10;"></div>
 </div>
-
-<div id="autocompleteBox" style="position:absolute;width:400px;max-width:80%;background:#0f172a;border-radius:10px;display:none;"></div>
 
 <div class="main">
   <div class="left" id="trackList"></div>
@@ -106,7 +109,6 @@ const tracks=[
 ];
 
 const templates=[()=> "Harika vibe.",()=> "Efsane.",()=> "Bağımlılık yaptı.",()=> "Her dinleyişte farklı.",()=> "Nostalji vurdu."];
-
 const userNames=["EgeKaan","LunaSky","MertAtlas","ZeynoWave","OrionX","DenizFlow","NovaPulse","ArdaStone","MilaEcho","KeremVibe","SelinAura","AtlasCore"];
 
 const cache={}, userCache={}, dailyCounts={}, totalCounts={};
@@ -147,6 +149,105 @@ function renderTrackList(){
  });
 }
 
+/* AUTOCOMPLETE */
+const searchInput=document.getElementById('searchInput');
+const autocompleteBox=document.getElementById('autocompleteBox');
+
+let activeIndex=-1;
+let currentMatches=[];
+
+searchInput.addEventListener('input',()=>{
+ const val=searchInput.value.toLowerCase();
+ activeIndex=-1;
+
+ if(val===""){
+   autocompleteBox.style.display="none";
+   return;
+ }
+
+ currentMatches=tracks.filter(t=>t.toLowerCase().includes(val)).slice(0,5);
+
+ autocompleteBox.innerHTML="";
+
+ currentMatches.forEach((m,i)=>{
+   const div=document.createElement('div');
+   div.className="autocomplete-item";
+
+   const regex=new RegExp(`(${val})`,'gi');
+   div.innerHTML=m.replace(regex,'<mark>$1</mark>');
+
+   div.onclick=()=>{
+     selectItem(i);
+   };
+
+   autocompleteBox.appendChild(div);
+ });
+
+ autocompleteBox.style.display="block";
+});
+
+function selectItem(i){
+ const val=currentMatches[i];
+ searchInput.value=val;
+ autocompleteBox.style.display="none";
+ renderComments(val);
+}
+
+searchInput.addEventListener('keydown',(e)=>{
+ const items=document.querySelectorAll('.autocomplete-item');
+
+ if(e.key==="ArrowDown"){
+   activeIndex++;
+   if(activeIndex>=items.length) activeIndex=0;
+ }
+
+ if(e.key==="ArrowUp"){
+   activeIndex--;
+   if(activeIndex<0) activeIndex=items.length-1;
+ }
+
+ if(e.key==="Enter" && activeIndex>-1){
+   selectItem(activeIndex);
+ }
+
+ if(e.key==="Escape"){
+   autocompleteBox.style.display="none";
+ }
+
+ items.forEach(el=>el.classList.remove('active'));
+ if(items[activeIndex]) items[activeIndex].classList.add('active');
+});
+
+/* outside click */
+document.addEventListener('click',(e)=>{
+ if(!searchInput.contains(e.target) && !autocompleteBox.contains(e.target)){
+   autocompleteBox.style.display="none";
+ }
+});
+
+/* LANGUAGE */
+const writeBtn=document.getElementById('writeBtn');
+const showAllBtn=document.getElementById('showAllBtn');
+
+document.getElementById('btn-en').onclick=()=>{lang='en';toggleLangUI();}
+document.getElementById('btn-tr').onclick=()=>{lang='tr';toggleLangUI();}
+
+function toggleLangUI(){
+ document.getElementById('btn-en').classList.toggle('active',lang==='en');
+ document.getElementById('btn-tr').classList.toggle('active',lang==='tr');
+
+ if(lang==='tr'){
+   searchInput.placeholder="Şarkı ara...";
+   writeBtn.innerText="Yorum Yaz";
+   showAllBtn.innerText="Tümünü Göster";
+ }else{
+   searchInput.placeholder="Search songs...";
+   writeBtn.innerText="Write Comment";
+   showAllBtn.innerText="Show All";
+ }
+}
+
+/* COMMENTS */
 const comments=document.getElementById('comments');
 const trackTitle=document.getElementById('trackTitle');
 
@@ -208,7 +309,7 @@ function renderPagination(track,total){
  comments.appendChild(nav);
 }
 
-document.getElementById('showAllBtn').onclick=()=>{
+showAllBtn.onclick=()=>{
  showAll=!showAll;
  renderComments(trackTitle.innerText || tracks[0],1);
 };
