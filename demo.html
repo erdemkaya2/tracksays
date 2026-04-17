@@ -23,7 +23,6 @@ overflow: auto;
 .lang-btn{font-size:12px;color:#94a3b8;padding:4px 8px;border-radius:6px;cursor:pointer}
 .lang-btn.active{background:#38bdf8;color:#020617}
 
-/* FIX 3: Sol liste daha dar */
 .main{
 display:flex;
 gap:20px;
@@ -33,11 +32,10 @@ padding:20px 40px;
 .track{display:flex;justify-content:space-between;padding:8px;border-radius:8px;cursor:pointer}
 .track:hover{background:rgba(56,189,248,0.1)}
 
-/* FIX 4: Sol listede font boyutunu küçült */
 .track-name{
 font-weight:600;
 color:#e2e8f0;
-font-size:14px; /* 👈 1 boyut büyüttük */
+font-size:14px;
 }
 .artist-name{font-size:11px;color:#94a3b8;margin-left:4px}
 
@@ -55,7 +53,6 @@ border-radius:16px;
 padding:20px;
 max-height:70vh;
 }
-/* HEADER */
 .track-header{
 background:#334155;
 border-radius:16px;
@@ -70,23 +67,21 @@ font-weight:700;
 color:#38bdf8;
 }
 
-/* COMMENTS BOX */
 .comments-box{
 background:#334155;
 border-radius:16px;
 padding:20px;
 
-flex:1; /* 👈 KRİTİK */
+flex:1;
 overflow-y:auto;
 }
 .actions{display:flex;gap:10px}
 .primary-btn{background:#38bdf8;color:#020617;border:none;padding:6px 12px;border-radius:8px;font-weight:600;cursor:pointer}
 .secondary-btn{font-size:12px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;padding:4px 8px;border-radius:6px;cursor:pointer}
 
-/* FIX 5: Yorumlar arası boşluğu azalt */
 .comment{
 padding:8px 12px;
-margin-bottom:6px; /* 👈 EKLEDİK */
+margin-bottom:6px;
 border-bottom:1px solid rgba(255,255,255,0.05);
 position:relative;
 }
@@ -96,7 +91,6 @@ margin-bottom:6px;
 line-height:1.5;
 }
 
-/* FIX 6: Meta (zaman) ve kullanıcı adı yan yana */
 .comment-footer{display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:12px;color:#64748b}
 .comment-footer .user{color:#38bdf8}
 
@@ -179,12 +173,89 @@ box-shadow: 0 2px 0 #334155;
 margin-left:-20px;
 margin-right:-20px;
 }
+
+/* Modal styles */
+#addTrackBtn:hover{
+background:#7dd3fc !important;
+box-shadow:0 0 16px rgba(56,189,248,0.7) !important;
+transform:scale(1.05);
+}
+
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(2,6,23,0.8);
+display:flex;align-items:center;justify-content:center;
+z-index:100;
+}
+.modal-box{
+background:#1e293b;
+border:1px solid rgba(56,189,248,0.4);
+border-radius:16px;
+padding:28px 32px;
+width:380px;
+max-width:90vw;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+.modal-title{
+font-size:16px;
+font-weight:600;
+color:#38bdf8;
+}
+.modal-input{
+width:100%;
+box-sizing:border-box;
+padding:10px 14px;
+border-radius:10px;
+border:1px solid rgba(56,189,248,0.4);
+background:rgba(15,23,42,0.8);
+color:#e2e8f0;
+font-size:14px;
+font-family:'Inter',sans-serif;
+outline:none;
+}
+.modal-input:focus{
+border-color:#38bdf8;
+}
+.modal-hint{
+font-size:12px;
+color:#64748b;
+}
+.modal-actions{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:4px;
+}
+.modal-cancel{
+padding:7px 16px;
+border-radius:8px;
+border:1px solid rgba(148,163,184,0.4);
+background:transparent;
+color:#94a3b8;
+cursor:pointer;
+font-size:13px;
+}
+.modal-confirm{
+padding:7px 16px;
+border-radius:8px;
+border:none;
+background:#38bdf8;
+color:#020617;
+font-weight:600;
+cursor:pointer;
+font-size:13px;
+}
+.modal-error{
+font-size:12px;
+color:#f87171;
+display:none;
+}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <!-- FIX 1: Logoya link -->
   <a href="https://www.tracksays.com" class="logo" target="_blank">
     <svg viewBox="0 0 64 64" fill="none">
       <path d="M12 14C12 10 15 8 19 8H45C49 8 52 10 52 14V34C52 38 49 40 45 40H28L18 50V40H19C15 40 12 38 12 34V14Z" stroke="#38bdf8" stroke-width="2.5"/>
@@ -214,30 +285,42 @@ margin-right:-20px;
 
 <div class="main">
   <div style="display:flex;flex-direction:column;width:22%;gap:8px;">
-    <div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:10px 16px;text-align:center;">
-      <span id="tracksLabel" style="font-size:13px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;">Şarkılar</span>
+    <!-- Başlık kutusu: label + Add Track butonu yan yana -->
+    <div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+      <span id="tracksLabel" style="font-size:13px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Tracks</span>
+      <button id="addTrackBtn" onclick="openAddTrack()" style="font-size:10px;font-weight:600;padding:5px 9px;border-radius:7px;border:none;background:#38bdf8;color:#020617;cursor:pointer;white-space:nowrap;flex-shrink:0;letter-spacing:0.3px;transition:all 0.2s ease;box-shadow:0 0 10px rgba(56,189,248,0.4);">+ Add Track</button>
     </div>
     <div class="left" id="trackList" style="width:100%;box-sizing:border-box;"></div>
   </div>
 
   <div class="right">
 
-<!-- HEADER (AYRI KUTU) -->
-<div class="track-header">
-<span id="trackTitle"></span>
-<div class="actions">
-<button class="primary-btn" id="writeBtn">Write Comment</button>
-<button class="secondary-btn" id="showAllBtn">Show All</button>
-</div>
+    <div class="track-header">
+      <span id="trackTitle"></span>
+      <div class="actions">
+        <button class="primary-btn" id="writeBtn">Write Comment</button>
+        <button class="secondary-btn" id="showAllBtn">Show All</button>
+      </div>
+    </div>
+
+    <div class="comments-box">
+      <div id="comments"></div>
+    </div>
+
+  </div>
 </div>
 
-<!-- COMMENTS (AYRI KUTU) -->
-<div class="comments-box">
-<div id="comments"></div>
-</div>
-
-</div>
-    <div id="comments"></div>
+<!-- Add Track Modal -->
+<div class="modal-overlay" id="addTrackModal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle">Add New Track</div>
+    <div class="modal-hint" id="modalHint">Format: Song Name – Artist Name</div>
+    <input class="modal-input" id="modalInput" type="text" placeholder="e.g. Waterloo – ABBA" />
+    <div class="modal-error" id="modalError"></div>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="modalCancelBtn" onclick="closeAddTrack()">Cancel</button>
+      <button class="modal-confirm" id="modalConfirmBtn" onclick="confirmAddTrack()">Add</button>
+    </div>
   </div>
 </div>
 
@@ -245,8 +328,6 @@ margin-right:-20px;
 document.addEventListener('DOMContentLoaded', function(){
 
 let lang='en';
-
-// FIX 2: showAll başlangıçta false = son 24 saat görünümü
 let showAll=false;
 
 const tracks=[
@@ -256,8 +337,6 @@ const tracks=[
 "Bohemian Rhapsody – Queen","Creep – Radiohead","Shape of You – Ed Sheeran","Nightcall – Kavinsky",
 "Dudu – Tarkan","Wannabe – Spice Girls","Don't Speak – No Doubt","Nothing Else Matters – Metallica"
 ];
-
-/* GELİŞMİŞ YORUM MOTORU */
 
 const starters=[
 "Bu şarkının en ilginç tarafı",
@@ -323,9 +402,10 @@ function renderTrackList(){
  trackList.innerHTML='';
  tracks.forEach(t=>{
    const parts=t.split(" – ");
-   const total=generate(t).length;
-   const daily=Math.floor(Math.random()*30)+1;
-   dailyCounts[t]=daily;
+   generate(t);
+   if(!dailyCounts[t]) dailyCounts[t]=Math.floor(Math.random()*30)+1;
+   const total=cache[t].length;
+   const daily=dailyCounts[t];
 
    const div=document.createElement('div');
    div.className='track';
@@ -337,6 +417,52 @@ function renderTrackList(){
    trackList.appendChild(div);
  });
 }
+
+/* ADD TRACK MODAL */
+window.openAddTrack = function(){
+  document.getElementById('addTrackModal').style.display='flex';
+  document.getElementById('modalInput').value='';
+  document.getElementById('modalError').style.display='none';
+  document.getElementById('modalInput').focus();
+};
+
+window.closeAddTrack = function(){
+  document.getElementById('addTrackModal').style.display='none';
+};
+
+window.confirmAddTrack = function(){
+  const val = document.getElementById('modalInput').value.trim();
+  const errorEl = document.getElementById('modalError');
+
+  if(!val){
+    errorEl.style.display='block';
+    errorEl.innerText = lang==='tr' ? 'Lütfen bir şarkı adı girin.' : 'Please enter a track name.';
+    return;
+  }
+
+  if(tracks.includes(val)){
+    errorEl.style.display='block';
+    errorEl.innerText = lang==='tr' ? 'Bu şarkı zaten listede!' : 'This track is already in the list!';
+    return;
+  }
+
+  tracks.push(val);
+  dailyCounts[val] = Math.floor(Math.random()*30)+1;
+  renderTrackList();
+  closeAddTrack();
+  renderComments(val);
+};
+
+// Enter key on modal input
+document.getElementById('modalInput').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') confirmAddTrack();
+  if(e.key === 'Escape') closeAddTrack();
+});
+
+// Click outside modal to close
+document.getElementById('addTrackModal').addEventListener('click', function(e){
+  if(e.target === this) closeAddTrack();
+});
 
 /* AUTOCOMPLETE */
 const searchInput=document.getElementById('searchInput');
@@ -407,7 +533,6 @@ searchInput.addEventListener('keydown',(e)=>{
  if(items[activeIndex]) items[activeIndex].classList.add('active');
 });
 
-/* outside click */
 document.addEventListener('click',(e)=>{
  if(!searchInput.contains(e.target) && !autocompleteBox.contains(e.target)){
    autocompleteBox.style.display="none";
@@ -422,7 +547,6 @@ document.getElementById('btn-en').onclick=()=>{lang='en';toggleLangUI();}
 document.getElementById('btn-tr').onclick=()=>{lang='tr';toggleLangUI();}
 
 function updateToggleBtn(){
- // FIX 2: showAll=false ise "Show All" göster, true ise "Last 24h" göster
  if(lang==='tr'){
    showAllBtn.innerText=showAll ? 'Son 24 Saat' : 'Tümünü Göster';
  } else {
@@ -433,34 +557,41 @@ function updateToggleBtn(){
 function toggleLangUI(){
  document.getElementById('btn-en').classList.toggle('active',lang==='en');
  document.getElementById('btn-tr').classList.toggle('active',lang==='tr');
-const tracksLabel = document.getElementById("tracksLabel");
+ const tracksLabel = document.getElementById("tracksLabel");
 
-if(lang === 'tr'){
-tracksLabel.innerText = "Şarkılar";
-}else{
-tracksLabel.innerText = "Tracks";
+ if(lang === 'tr'){
+   tracksLabel.innerText = "Şarkılar";
+   document.getElementById('addTrackBtn').innerText = '+ Şarkı Ekle';
+   document.getElementById('modalTitle').innerText = 'Yeni Şarkı Ekle';
+   document.getElementById('modalHint').innerText = 'Format: Şarkı Adı – Sanatçı Adı';
+   document.getElementById('modalInput').placeholder = 'örn: Dudu – Tarkan';
+   document.getElementById('modalCancelBtn').innerText = 'İptal';
+   document.getElementById('modalConfirmBtn').innerText = 'Ekle';
+   searchInput.placeholder="Şarkı ara...";
+   writeBtn.innerText="Yorum Yaz";
+   document.getElementById("footerText").innerHTML = `© 2026 TrackSays. Tüm hakları saklıdır. 
+<br>Tüm şarkı isimleri, sanatçı adları ve ilgili içerikler yalnızca demo amaçlıdır. 
+<br>TrackSays herhangi bir müzik şirketi, sanatçı veya platform ile bağlantılı değildir. 
+<br><a href="#">Gizlilik Politikası</a> · <a href="#">Kullanım Şartları</a>`;
+ } else {
+   tracksLabel.innerText = "Tracks";
+   document.getElementById('addTrackBtn').innerText = '+ Add Track';
+   document.getElementById('modalTitle').innerText = 'Add New Track';
+   document.getElementById('modalHint').innerText = 'Format: Song Name – Artist Name';
+   document.getElementById('modalInput').placeholder = 'e.g. Waterloo – ABBA';
+   document.getElementById('modalCancelBtn').innerText = 'Cancel';
+   document.getElementById('modalConfirmBtn').innerText = 'Add';
+   searchInput.placeholder="Search songs...";
+   writeBtn.innerText="Write Comment";
+   document.getElementById("footerText").innerHTML = `© 2026 TrackSays. All rights reserved. 
+<br>All song titles, artist names, and related content are used for demonstration purposes only. 
+<br>TrackSays is not affiliated with any music labels, artists, or streaming platforms. 
+<br><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>`;
+ }
+
+ updateToggleBtn();
 }
- if(lang==='tr'){
-searchInput.placeholder="Şarkı ara...";
-writeBtn.innerText="Yorum Yaz";
 
-document.getElementById("footerText").innerHTML = `© 2026 TrackSays. Tüm hakları saklıdır. 
-<br>
-Tüm şarkı isimleri, sanatçı adları ve ilgili içerikler yalnızca demo amaçlıdır. 
-<br>
-TrackSays herhangi bir müzik şirketi, sanatçı veya platform ile bağlantılı değildir. 
-<br>
-<a href="#">Gizlilik Politikası</a> · <a href="#">Kullanım Şartları</a>`;
-
-}else{
-searchInput.placeholder="Search songs...";
-writeBtn.innerText="Write Comment";
-
-document.getElementById("footerText").innerHTML = `EN METİN`;
-}
-
-updateToggleBtn();
-}
 /* COMMENTS */
 const comments=document.getElementById('comments');
 const trackTitle=document.getElementById('trackTitle');
@@ -497,7 +628,6 @@ function renderComments(track,page=1){
 
    const div=document.createElement('div');
    div.className='comment';
-   // FIX 6: Zaman ve kullanıcı adı yan yana, footer'da
    div.innerHTML=`
      <div class="comment-text">${c}</div>
      <div class="comment-footer">
@@ -512,12 +642,9 @@ function renderComments(track,page=1){
 }
 
 function renderPagination(track,total){
-const totalPages=Math.ceil(total/perPage);
+ const totalPages=Math.ceil(total/perPage);
+ if(totalPages <= 1) return;
 
-/* 👇 KRİTİK KONTROL */
-if(totalPages <= 1){
-return; // pagination hiç oluşturulmaz
-}
  const nav=document.createElement('div');
 
  for(let i=1;i<=totalPages;i++){
@@ -531,7 +658,6 @@ return; // pagination hiç oluşturulmaz
  comments.appendChild(nav);
 }
 
-// FIX 2: Toggle logic
 showAllBtn.onclick=()=>{
  showAll=!showAll;
  updateToggleBtn();
@@ -542,7 +668,7 @@ showAllBtn.onclick=()=>{
 
 renderTrackList();
 renderComments(tracks[0]);
-toggleLangUI(); // 👈 BUNU EKLE
+toggleLangUI();
 });
 </script>
 <footer class="footer">
@@ -558,4 +684,3 @@ TrackSays is not affiliated with any music labels, artists, or streaming platfor
 </footer>
 </body>
 </html>
-
