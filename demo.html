@@ -256,7 +256,7 @@ display:none;
 <body>
 
 <div class="header">
-  <a href="https://www.tracksays.com" class="logo" target="_blank">
+  <a href="https://www.tracksays.com" class="logo">
     <svg viewBox="0 0 64 64" fill="none">
       <path d="M12 14C12 10 15 8 19 8H45C49 8 52 10 52 14V34C52 38 49 40 45 40H28L18 50V40H19C15 40 12 38 12 34V14Z" stroke="#38bdf8" stroke-width="2.5"/>
       <path d="M22 26V30M26 22V34M30 24V32M34 20V36M38 24V32M42 26V30" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
@@ -285,7 +285,6 @@ display:none;
 
 <div class="main">
   <div style="display:flex;flex-direction:column;width:22%;gap:8px;">
-    <!-- Başlık kutusu: label + Add Track butonu yan yana -->
     <div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
       <span id="tracksLabel" style="font-size:13px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Tracks</span>
       <button id="addTrackBtn" onclick="openAddTrack()" style="font-size:10px;font-weight:600;padding:5px 9px;border-radius:7px;border:none;background:#38bdf8;color:#020617;cursor:pointer;white-space:nowrap;flex-shrink:0;letter-spacing:0.3px;transition:all 0.2s ease;box-shadow:0 0 10px rgba(56,189,248,0.4);">+ Add Track</button>
