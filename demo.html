@@ -7,249 +7,138 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle at top,#1e293b,#020617);color:#e2e8f0}
-html, body{
-height:100%;
-overflow: auto;
-}
-.header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px}
-.header-right{display:flex;align-items:center;gap:16px}
-.logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:600;text-decoration:none;color:#e2e8f0}
-.logo svg{width:48px;height:48px}
-.demo-tag{font-size:12px;color:#94a3b8;margin-left:6px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter',sans-serif;background:radial-gradient(circle at top,#1e293b,#020617);color:#e2e8f0;min-height:100vh}
+html,body{overflow-x:hidden}
 
-.auth button{margin-left:6px;padding:8px 14px;border-radius:8px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;cursor:pointer}
-.lang{display:flex;gap:6px}
+/* HEADER */
+.header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;flex-wrap:wrap;gap:10px}
+.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600;text-decoration:none;color:#e2e8f0}
+.logo svg{width:36px;height:36px;flex-shrink:0}
+.demo-tag{font-size:11px;color:#94a3b8;margin-left:4px}
+.auth button{padding:6px 12px;border-radius:8px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;cursor:pointer;font-size:13px}
+.lang{display:flex;gap:4px}
 .lang-btn{font-size:12px;color:#94a3b8;padding:4px 8px;border-radius:6px;cursor:pointer}
 .lang-btn.active{background:#38bdf8;color:#020617}
 
-.main{
-display:flex;
-gap:20px;
-padding:20px 40px;
-}
-.left{background:rgba(30,41,59,0.6);border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto}
-.track{display:flex;justify-content:space-between;padding:8px;border-radius:8px;cursor:pointer}
+/* SEARCH */
+.search-wrap{display:flex;justify-content:center;margin:10px 20px 0;position:relative}
+#searchInput{width:100%;max-width:500px;padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.4);background:rgba(15,23,42,0.8);color:#e2e8f0;font-size:14px;font-family:'Inter',sans-serif;outline:none}
+#autocompleteBox{position:absolute;top:44px;width:100%;max-width:500px;background:#0f172a;border-radius:10px;display:none;z-index:10;border:1px solid rgba(56,189,248,0.2)}
+
+/* MAIN LAYOUT — desktop */
+.main{display:flex;gap:16px;padding:16px 20px}
+.sidebar{display:flex;flex-direction:column;width:240px;flex-shrink:0;gap:8px}
+.sidebar-header{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+#tracksLabel{font-size:12px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.left{background:rgba(30,41,59,0.6);border-radius:16px;padding:12px;max-height:65vh;overflow-y:auto}
+.track{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:8px;cursor:pointer;gap:8px}
 .track:hover{background:rgba(56,189,248,0.1)}
-
-.track-name{
-font-weight:600;
-color:#e2e8f0;
-font-size:14px;
-}
-.artist-name{font-size:11px;color:#94a3b8;margin-left:4px}
-
-.count{font-size:11px;color:#94a3b8}
+.track-name{font-weight:600;color:#e2e8f0;font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.count{font-size:11px;color:#94a3b8;flex-shrink:0}
 .count strong{color:#38bdf8;font-size:12px}
 
-.right{
-flex:1;
-display:flex;
-flex-direction:column;
-gap:10px;
-
-background:#334155;
-border-radius:16px;
-padding:20px;
-max-height:70vh;
-}
-.track-header{
-background:#334155;
-border-radius:16px;
-padding:16px 20px;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-font-size:22px;
-font-weight:700;
-color:#38bdf8;
-}
-
-.comments-box{
-background:#334155;
-border-radius:16px;
-padding:20px;
-
-flex:1;
-overflow-y:auto;
-}
-.actions{display:flex;gap:10px}
-.primary-btn{background:#38bdf8;color:#020617;border:none;padding:6px 12px;border-radius:8px;font-weight:600;cursor:pointer}
+.right{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;background:#334155;border-radius:16px;padding:16px;max-height:65vh}
+.track-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.actions{display:flex;gap:8px;flex-shrink:0}
+.primary-btn{background:#38bdf8;color:#020617;border:none;padding:6px 12px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px}
 .secondary-btn{font-size:12px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;padding:4px 8px;border-radius:6px;cursor:pointer}
+.comments-box{flex:1;overflow-y:auto;min-height:0}
 
-.comment{
-padding:8px 12px;
-margin-bottom:6px;
-border-bottom:1px solid rgba(255,255,255,0.05);
-position:relative;
-}
-.comment-text{
-font-size:13px;
-margin-bottom:6px;
-line-height:1.5;
-}
-
+/* COMMENTS */
+.comment{padding:8px 12px;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.05);position:relative}
+.comment-text{font-size:13px;margin-bottom:6px;line-height:1.5}
 .comment-footer{display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:12px;color:#64748b}
 .comment-footer .user{color:#38bdf8}
+#comments .comment:nth-child(odd){background:rgba(255,255,255,0.03)}
+#comments .comment:nth-child(even){background:rgba(255,255,255,0.09)}
+#comments button{background:rgba(30,41,59,0.8);color:#e2e8f0;border:1px solid rgba(56,189,248,0.3);border-radius:6px;padding:4px 8px;margin:2px;cursor:pointer;font-size:12px}
+#comments button:hover,#comments button.active{background:#38bdf8;color:#020617}
 
-#comments .comment:nth-child(odd){
-background: rgba(255,255,255,0.03);
-}
-
-#comments .comment:nth-child(even){
-background: rgba(255,255,255,0.09);
-}
-.autocomplete-item{padding:8px 12px;cursor:pointer}
-.autocomplete-item:hover,
-.autocomplete-item.active{background:#1e293b}
-
+/* AUTOCOMPLETE */
+.autocomplete-item{padding:8px 12px;cursor:pointer;font-size:13px}
+.autocomplete-item:hover,.autocomplete-item.active{background:#1e293b}
 mark{background:#38bdf8;color:#020617;border-radius:3px;padding:0 2px}
-::-webkit-scrollbar {
-width: 10px;
-}
 
-::-webkit-scrollbar-track {
-background: #020617;
-}
+/* ADD TRACK BTN */
+#addTrackBtn{font-size:10px;font-weight:600;padding:5px 9px;border-radius:7px;border:none;background:#38bdf8;color:#020617;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.2s ease;box-shadow:0 0 10px rgba(56,189,248,0.4)}
+#addTrackBtn:hover{background:#7dd3fc;box-shadow:0 0 16px rgba(56,189,248,0.7);transform:scale(1.05)}
 
-::-webkit-scrollbar-thumb {
-background: #334155;
-border-radius: 8px;
-border: 2px solid #020617;
-}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#020617}
+::-webkit-scrollbar-thumb{background:#334155;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:#38bdf8}
 
-::-webkit-scrollbar-thumb:hover {
-background: #38bdf8;
-}
-#comments button{
-background: rgba(30,41,59,0.8);
-color: #e2e8f0;
-border: 1px solid rgba(56,189,248,0.3);
-border-radius: 6px;
-padding: 4px 8px;
-margin: 2px;
-cursor: pointer;
-font-size: 12px;
-transition: all 0.2s ease;
-}
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,6,23,0.85);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal-box{background:#1e293b;border:1px solid rgba(56,189,248,0.4);border-radius:16px;padding:24px 24px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:14px}
+.modal-title{font-size:16px;font-weight:600;color:#38bdf8}
+.modal-input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.4);background:rgba(15,23,42,0.8);color:#e2e8f0;font-size:14px;font-family:'Inter',sans-serif;outline:none}
+.modal-input:focus{border-color:#38bdf8}
+.modal-hint{font-size:12px;color:#64748b}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:4px}
+.modal-cancel{padding:7px 16px;border-radius:8px;border:1px solid rgba(148,163,184,0.4);background:transparent;color:#94a3b8;cursor:pointer;font-size:13px}
+.modal-confirm{padding:7px 16px;border-radius:8px;border:none;background:#38bdf8;color:#020617;font-weight:600;cursor:pointer;font-size:13px}
+.modal-error{font-size:12px;color:#f87171;display:none}
 
-#comments button:hover{
-background: #38bdf8;
-color: #020617;
-}
+/* FOOTER */
+.footer{margin-top:20px;padding:20px 16px;text-align:center;font-size:12px;color:#64748b;border-top:1px solid rgba(255,255,255,0.05)}
+.footer a{color:#38bdf8;text-decoration:none}
+.footer a:hover{text-decoration:underline}
 
-#comments button.active{
-background: #38bdf8;
-color: #020617;
-font-weight: 600;
-}
-.footer{
-margin-top:20px;
-padding:20px 10px;
-text-align:center;
-font-size:12px;
-color:#64748b;
-border-top:1px solid rgba(255,255,255,0.05);
-}
+/* MOBILE TAB BAR */
+.mobile-tabs{display:none}
 
-.footer a{
-color:#38bdf8;
-text-decoration:none;
-}
+/* ===== MOBILE BREAKPOINT ===== */
+@media (max-width: 640px) {
+  .header{padding:12px 16px}
+  .logo{font-size:16px}
+  .auth button{padding:5px 10px;font-size:12px}
 
-.footer a:hover{
-text-decoration:underline;
-}
-#comments{
-position: relative;
-z-index: 1;
-}
-.track-title{
-box-shadow: 0 2px 0 #334155;
-}
-.track-title{
-margin-left:-20px;
-margin-right:-20px;
-}
+  .search-wrap{margin:10px 16px 0}
 
-/* Modal styles */
-#addTrackBtn:hover{
-background:#7dd3fc !important;
-box-shadow:0 0 16px rgba(56,189,248,0.7) !important;
-transform:scale(1.05);
-}
+  .main{flex-direction:column;padding:0;gap:0}
 
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:rgba(2,6,23,0.8);
-display:flex;align-items:center;justify-content:center;
-z-index:100;
-}
-.modal-box{
-background:#1e293b;
-border:1px solid rgba(56,189,248,0.4);
-border-radius:16px;
-padding:28px 32px;
-width:380px;
-max-width:90vw;
-display:flex;
-flex-direction:column;
-gap:14px;
-}
-.modal-title{
-font-size:16px;
-font-weight:600;
-color:#38bdf8;
-}
-.modal-input{
-width:100%;
-box-sizing:border-box;
-padding:10px 14px;
-border-radius:10px;
-border:1px solid rgba(56,189,248,0.4);
-background:rgba(15,23,42,0.8);
-color:#e2e8f0;
-font-size:14px;
-font-family:'Inter',sans-serif;
-outline:none;
-}
-.modal-input:focus{
-border-color:#38bdf8;
-}
-.modal-hint{
-font-size:12px;
-color:#64748b;
-}
-.modal-actions{
-display:flex;
-justify-content:flex-end;
-gap:10px;
-margin-top:4px;
-}
-.modal-cancel{
-padding:7px 16px;
-border-radius:8px;
-border:1px solid rgba(148,163,184,0.4);
-background:transparent;
-color:#94a3b8;
-cursor:pointer;
-font-size:13px;
-}
-.modal-confirm{
-padding:7px 16px;
-border-radius:8px;
-border:none;
-background:#38bdf8;
-color:#020617;
-font-weight:600;
-cursor:pointer;
-font-size:13px;
-}
-.modal-error{
-font-size:12px;
-color:#f87171;
-display:none;
+  .sidebar{width:100%;gap:0}
+  .sidebar-header{border-radius:0;margin:8px 0 0;border-left:none;border-right:none}
+  .left{border-radius:0;max-height:none;padding:8px}
+
+  .right{border-radius:0;max-height:none;padding:12px;min-height:60vh}
+
+  .track-header{padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08)}
+
+  /* Hide sidebar track list by default on mobile, show panel via tabs */
+  .sidebar{display:none}
+  .right{border-radius:0}
+
+  /* Tab bar */
+  .mobile-tabs{
+    display:flex;
+    position:sticky;top:0;z-index:20;
+    background:#0f172a;
+    border-bottom:1px solid rgba(56,189,248,0.2);
+  }
+  .tab-btn{
+    flex:1;padding:10px 0;font-size:13px;font-weight:600;
+    background:transparent;border:none;color:#64748b;cursor:pointer;
+    border-bottom:2px solid transparent;transition:all 0.2s;
+  }
+  .tab-btn.active{color:#38bdf8;border-bottom-color:#38bdf8}
+
+  /* Panel visibility */
+  .panel{display:none}
+  .panel.visible{display:flex;flex-direction:column}
+
+  #panelTracks{padding:8px 16px 16px}
+  #panelComments{padding:8px 16px 16px;min-height:70vh}
+
+  .left{max-height:none;background:transparent;padding:0}
+  .right{background:transparent;padding:0;gap:6px}
+
+  .track-name{font-size:13px}
+  .comment-text{font-size:13px}
 }
 </style>
 </head>
@@ -263,13 +152,11 @@ display:none;
     </svg>
     TrackSays <span class="demo-tag">(Demo)</span>
   </a>
-
   <div class="header-right">
     <div class="lang">
       <div class="lang-btn active" id="btn-en">EN</div>
       <div class="lang-btn" id="btn-tr">TR</div>
     </div>
-
     <div class="auth">
       <button id="signup">Sign Up</button>
       <button id="login">Log In</button>
@@ -277,36 +164,55 @@ display:none;
   </div>
 </div>
 
-<div style="display:flex;justify-content:center;margin-top:10px;position:relative;">
-  <input id="searchInput" placeholder="Search songs..." 
-    style="width:400px;max-width:80%;padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.4);background:rgba(15,23,42,0.8);color:#e2e8f0;">
-  <div id="autocompleteBox" style="position:absolute;top:42px;width:400px;max-width:80%;background:#0f172a;border-radius:10px;display:none;z-index:10;"></div>
+<div class="search-wrap">
+  <input id="searchInput" placeholder="Search songs..." />
+  <div id="autocompleteBox"></div>
 </div>
 
-<div class="main">
-  <div style="display:flex;flex-direction:column;width:22%;gap:8px;">
-    <div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
-      <span id="tracksLabel" style="font-size:13px;font-weight:600;color:#38bdf8;letter-spacing:1px;text-transform:uppercase;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Tracks</span>
-      <button id="addTrackBtn" onclick="openAddTrack()" style="font-size:10px;font-weight:600;padding:5px 9px;border-radius:7px;border:none;background:#38bdf8;color:#020617;cursor:pointer;white-space:nowrap;flex-shrink:0;letter-spacing:0.3px;transition:all 0.2s ease;box-shadow:0 0 10px rgba(56,189,248,0.4);">+ Add Track</button>
+<!-- MOBILE TABS -->
+<div class="mobile-tabs" id="mobileTabs">
+  <button class="tab-btn active" id="tabTracks" onclick="switchTab('tracks')">🎵 Tracks</button>
+  <button class="tab-btn" id="tabComments" onclick="switchTab('comments')">💬 Comments</button>
+</div>
+
+<div class="main" id="mainLayout">
+
+  <!-- SIDEBAR (desktop) / PANEL (mobile) -->
+  <div class="sidebar" id="sidebarDesktop">
+    <div class="sidebar-header">
+      <span id="tracksLabel">Tracks</span>
+      <button id="addTrackBtn" onclick="openAddTrack()">+ Add Track</button>
     </div>
-    <div class="left" id="trackList" style="width:100%;box-sizing:border-box;"></div>
+    <div class="left" id="trackListDesktop"></div>
   </div>
 
-  <div class="right">
+  <!-- MOBILE PANEL: tracks -->
+  <div class="panel visible" id="panelTracks" style="display:none;">
+    <div class="sidebar-header" style="border-radius:12px;margin-bottom:8px">
+      <span id="tracksLabelM">Tracks</span>
+      <button id="addTrackBtnM" onclick="openAddTrack()">+ Add Track</button>
+    </div>
+    <div class="left" id="trackListMobile"></div>
+  </div>
 
+  <!-- COMMENTS PANEL (shared desktop + mobile) -->
+  <div class="right" id="rightPanel">
     <div class="track-header">
-      <span id="trackTitle"></span>
+      <span id="trackTitle" style="font-size:clamp(16px,4vw,24px);font-weight:800;color:#38bdf8;letter-spacing:-0.5px;"></span>
       <div class="actions">
         <button class="primary-btn" id="writeBtn">Write Comment</button>
         <button class="secondary-btn" id="showAllBtn">Show All</button>
       </div>
     </div>
-
     <div class="comments-box">
       <div id="comments"></div>
     </div>
-
   </div>
+
+  <!-- MOBILE PANEL: comments wrapper -->
+  <div class="panel" id="panelComments" style="display:none;">
+  </div>
+
 </div>
 
 <!-- Add Track Modal -->
@@ -328,6 +234,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 let lang='en';
 let showAll=false;
+let isMobile=window.innerWidth<=640;
 
 const tracks=[
 "Wonderwall – Oasis","Şımarık – Tarkan","Aya Benzer – Mustafa Sandal","No Scrubs – TLC","Smells Like Teen Spirit – Nirvana",
@@ -337,349 +244,275 @@ const tracks=[
 "Dudu – Tarkan","Wannabe – Spice Girls","Don't Speak – No Doubt","Nothing Else Matters – Metallica"
 ];
 
-const starters=[
-"Bu şarkının en ilginç tarafı",
-"Her dinlediğimde fark ettiğim şey",
-"Garip bir şekilde",
-"İlk başta çok dikkat etmemiştim ama",
-"Yıllar geçse de değişmeyen şey",
-"Bilmiyorum sadece bana mı oluyor ama"
-];
+const starters=["Bu şarkının en ilginç tarafı","Her dinlediğimde fark ettiğim şey","Garip bir şekilde","İlk başta çok dikkat etmemiştim ama","Yıllar geçse de değişmeyen şey","Bilmiyorum sadece bana mı oluyor ama"];
+const middles=["insanın ruh haline göre tamamen başka bir şeye dönüşmesi","arka plandaki detayların aslında çok daha zengin olması","vokalin verdiği hissin beklenenden çok daha yoğun olması","basit gibi başlayıp katman katman açılması","melodinin bilinçaltına direkt işlemesi","dinledikçe farklı detaylar yakalaman"];
+const endings=["ve bu yüzden tekrar tekrar açıyorum.","insanı istemeden içine çekiyor.","bence bu yüzden yıllardır eskimiyor.","her dinleyişte başka bir şey veriyor.","bir noktadan sonra bağımlılık yapıyor."];
+const extras=["","  Küçük bir detay ama prodüksiyon inanılmaz temiz.","  Çoğu kişi bu kısmı fark etmiyor bile.","  Sözler ayrıca analiz edilecek seviyede.","  Canlı performansı stüdyodan bile daha iyi."];
 
-const middles=[
-"insanın ruh haline göre tamamen başka bir şeye dönüşmesi",
-"arka plandaki detayların aslında çok daha zengin olması",
-"vokalin verdiği hissin beklenenden çok daha yoğun olması",
-"basit gibi başlayıp katman katman açılması",
-"melodinin bilinçaltına direkt işlemesi",
-"dinledikçe farklı detaylar yakalaman"
-];
-
-const endings=[
-"ve bu yüzden tekrar tekrar açıyorum.",
-"insanı istemeden içine çekiyor.",
-"bence bu yüzden yıllardır eskimiyor.",
-"her dinleyişte başka bir şey veriyor.",
-"bir noktadan sonra bağımlılık yapıyor."
-];
-
-const extras=[
-"",
-" Küçük bir detay ama prodüksiyon inanılmaz temiz.",
-" Çoğu kişi bu kısmı fark etmiyor bile.",
-" Sözler ayrıca analiz edilecek seviyede.",
-" Canlı performansı stüdyodan bile daha iyi."
-];
-
-function pick(arr){
-return arr[Math.floor(Math.random()*arr.length)];
-}
-
-function generateComment(){
-return `${pick(starters)} ${pick(middles)} ve ${pick(endings)}${pick(extras)}`;
-}
-
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function generateComment(){return `${pick(starters)} ${pick(middles)} ve ${pick(endings)}${pick(extras)}`;}
 const userNames=["EgeKaan","LunaSky","MertAtlas","ZeynoWave","OrionX","DenizFlow","NovaPulse","ArdaStone","MilaEcho","KeremVibe","SelinAura","AtlasCore"];
-
-const cache={}, userCache={}, dailyCounts={}, totalCounts={};
+const cache={},userCache={},dailyCounts={};
 
 function generate(track){
- if(cache[track]) return cache[track];
- const total=Math.floor(Math.random()*1000)+200;
- totalCounts[track]=total;
- const arr=[];
- for(let i=0;i<total;i++){
-   arr.push(generateComment());
- }
- cache[track]=arr;
- return arr;
+  if(cache[track]) return cache[track];
+  const total=Math.floor(Math.random()*1000)+200;
+  const arr=[];
+  for(let i=0;i<total;i++) arr.push(generateComment());
+  cache[track]=arr;
+  return arr;
 }
 
-const trackList=document.getElementById('trackList');
+/* MOBILE TAB SWITCH */
+window.switchTab=function(tab){
+  const mobileTabs=document.getElementById('mobileTabs');
+  if(!mobileTabs||getComputedStyle(mobileTabs).display==='none') return;
 
+  const panelTracks=document.getElementById('panelTracks');
+  const panelComments=document.getElementById('panelComments');
+  const rightPanel=document.getElementById('rightPanel');
+  const tabTracks=document.getElementById('tabTracks');
+  const tabComments=document.getElementById('tabComments');
+
+  if(tab==='tracks'){
+    panelTracks.style.display='flex';
+    panelComments.style.display='none';
+    rightPanel.style.display='none';
+    tabTracks.classList.add('active');
+    tabComments.classList.remove('active');
+  } else {
+    panelTracks.style.display='none';
+    panelComments.style.display='none';
+    rightPanel.style.display='flex';
+    tabTracks.classList.remove('active');
+    tabComments.classList.add('active');
+  }
+};
+
+function checkMobileLayout(){
+  isMobile=window.innerWidth<=640;
+  const mobileTabs=document.getElementById('mobileTabs');
+  const sidebar=document.getElementById('sidebarDesktop');
+  const rightPanel=document.getElementById('rightPanel');
+
+  if(isMobile){
+    sidebar.style.display='none';
+    mobileTabs.style.display='flex';
+    // show tracks tab by default
+    switchTab('tracks');
+  } else {
+    sidebar.style.display='flex';
+    mobileTabs.style.display='none';
+    document.getElementById('panelTracks').style.display='none';
+    rightPanel.style.display='flex';
+  }
+}
+
+window.addEventListener('resize', checkMobileLayout);
+
+/* RENDER TRACK LISTS */
 function renderTrackList(){
- trackList.innerHTML='';
- tracks.forEach(t=>{
-   const parts=t.split(" – ");
-   generate(t);
-   if(!dailyCounts[t]) dailyCounts[t]=Math.floor(Math.random()*30)+1;
-   const total=cache[t].length;
-   const daily=dailyCounts[t];
-
-   const div=document.createElement('div');
-   div.className='track';
-   div.innerHTML=`
-     <span class="track-name">${parts[0]}</span>
-     <span class="count"><strong>${daily}</strong> (${total})</span>
-   `;
-   div.onclick=()=>renderComments(t);
-   trackList.appendChild(div);
- });
+  ['trackListDesktop','trackListMobile'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.innerHTML='';
+    tracks.forEach(t=>{
+      const parts=t.split(' – ');
+      generate(t);
+      if(!dailyCounts[t]) dailyCounts[t]=Math.floor(Math.random()*30)+1;
+      const total=cache[t].length;
+      const daily=dailyCounts[t];
+      const div=document.createElement('div');
+      div.className='track';
+      div.innerHTML=`<span class="track-name">${parts[0]}</span><span class="count"><strong>${daily}</strong> (${total})</span>`;
+      div.onclick=()=>{
+        renderComments(t);
+        if(isMobile) switchTab('comments');
+      };
+      el.appendChild(div);
+    });
+  });
 }
 
 /* ADD TRACK MODAL */
-window.openAddTrack = function(){
+window.openAddTrack=function(){
   document.getElementById('addTrackModal').style.display='flex';
   document.getElementById('modalInput').value='';
   document.getElementById('modalError').style.display='none';
-  document.getElementById('modalInput').focus();
+  setTimeout(()=>document.getElementById('modalInput').focus(),50);
 };
-
-window.closeAddTrack = function(){
+window.closeAddTrack=function(){
   document.getElementById('addTrackModal').style.display='none';
 };
-
-window.confirmAddTrack = function(){
-  const val = document.getElementById('modalInput').value.trim();
-  const errorEl = document.getElementById('modalError');
-
-  if(!val){
-    errorEl.style.display='block';
-    errorEl.innerText = lang==='tr' ? 'Lütfen bir şarkı adı girin.' : 'Please enter a track name.';
-    return;
-  }
-
-  if(tracks.includes(val)){
-    errorEl.style.display='block';
-    errorEl.innerText = lang==='tr' ? 'Bu şarkı zaten listede!' : 'This track is already in the list!';
-    return;
-  }
-
+window.confirmAddTrack=function(){
+  const val=document.getElementById('modalInput').value.trim();
+  const errorEl=document.getElementById('modalError');
+  if(!val){errorEl.style.display='block';errorEl.innerText=lang==='tr'?'Lütfen bir şarkı adı girin.':'Please enter a track name.';return;}
+  if(tracks.includes(val)){errorEl.style.display='block';errorEl.innerText=lang==='tr'?'Bu şarkı zaten listede!':'This track is already in the list!';return;}
   tracks.push(val);
-  dailyCounts[val] = Math.floor(Math.random()*30)+1;
+  dailyCounts[val]=Math.floor(Math.random()*30)+1;
   renderTrackList();
   closeAddTrack();
   renderComments(val);
+  if(isMobile) switchTab('comments');
 };
-
-// Enter key on modal input
-document.getElementById('modalInput').addEventListener('keydown', function(e){
-  if(e.key === 'Enter') confirmAddTrack();
-  if(e.key === 'Escape') closeAddTrack();
+document.getElementById('modalInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter') confirmAddTrack();
+  if(e.key==='Escape') closeAddTrack();
 });
-
-// Click outside modal to close
-document.getElementById('addTrackModal').addEventListener('click', function(e){
-  if(e.target === this) closeAddTrack();
+document.getElementById('addTrackModal').addEventListener('click',function(e){
+  if(e.target===this) closeAddTrack();
 });
 
 /* AUTOCOMPLETE */
 const searchInput=document.getElementById('searchInput');
 const autocompleteBox=document.getElementById('autocompleteBox');
-
 let activeIndex=-1;
 let currentMatches=[];
 
 searchInput.addEventListener('input',()=>{
- const val=searchInput.value.toLowerCase();
- activeIndex=-1;
-
- if(val===""){
-   autocompleteBox.style.display="none";
-   return;
- }
-
- currentMatches=tracks.filter(t=>t.toLowerCase().includes(val)).slice(0,5);
-
- autocompleteBox.innerHTML="";
-
- currentMatches.forEach((m,i)=>{
-   const div=document.createElement('div');
-   div.className="autocomplete-item";
-
-   const regex=new RegExp(`(${val})`,'gi');
-   div.innerHTML=m.replace(regex,'<mark>$1</mark>');
-
-   div.onclick=()=>{
-     selectItem(i);
-   };
-
-   autocompleteBox.appendChild(div);
- });
-
- autocompleteBox.style.display="block";
+  const val=searchInput.value.toLowerCase();
+  activeIndex=-1;
+  if(val===''){autocompleteBox.style.display='none';return;}
+  currentMatches=tracks.filter(t=>t.toLowerCase().includes(val)).slice(0,5);
+  autocompleteBox.innerHTML='';
+  currentMatches.forEach((m,i)=>{
+    const div=document.createElement('div');
+    div.className='autocomplete-item';
+    const regex=new RegExp(`(${val})`,'gi');
+    div.innerHTML=m.replace(regex,'<mark>$1</mark>');
+    div.onclick=()=>selectItem(i);
+    autocompleteBox.appendChild(div);
+  });
+  autocompleteBox.style.display='block';
 });
 
 function selectItem(i){
- const val=currentMatches[i];
- searchInput.value=val;
- autocompleteBox.style.display="none";
- renderComments(val);
+  const val=currentMatches[i];
+  searchInput.value=val;
+  autocompleteBox.style.display='none';
+  renderComments(val);
+  if(isMobile) switchTab('comments');
 }
 
 searchInput.addEventListener('keydown',(e)=>{
- const items=document.querySelectorAll('.autocomplete-item');
-
- if(e.key==="ArrowDown"){
-   activeIndex++;
-   if(activeIndex>=items.length) activeIndex=0;
- }
-
- if(e.key==="ArrowUp"){
-   activeIndex--;
-   if(activeIndex<0) activeIndex=items.length-1;
- }
-
- if(e.key==="Enter" && activeIndex>-1){
-   selectItem(activeIndex);
- }
-
- if(e.key==="Escape"){
-   autocompleteBox.style.display="none";
- }
-
- items.forEach(el=>el.classList.remove('active'));
- if(items[activeIndex]) items[activeIndex].classList.add('active');
+  const items=document.querySelectorAll('.autocomplete-item');
+  if(e.key==='ArrowDown'){activeIndex++;if(activeIndex>=items.length)activeIndex=0;}
+  if(e.key==='ArrowUp'){activeIndex--;if(activeIndex<0)activeIndex=items.length-1;}
+  if(e.key==='Enter'&&activeIndex>-1) selectItem(activeIndex);
+  if(e.key==='Escape') autocompleteBox.style.display='none';
+  items.forEach(el=>el.classList.remove('active'));
+  if(items[activeIndex]) items[activeIndex].classList.add('active');
 });
-
 document.addEventListener('click',(e)=>{
- if(!searchInput.contains(e.target) && !autocompleteBox.contains(e.target)){
-   autocompleteBox.style.display="none";
- }
+  if(!searchInput.contains(e.target)&&!autocompleteBox.contains(e.target)) autocompleteBox.style.display='none';
 });
 
 /* LANGUAGE */
 const writeBtn=document.getElementById('writeBtn');
 const showAllBtn=document.getElementById('showAllBtn');
-
 document.getElementById('btn-en').onclick=()=>{lang='en';toggleLangUI();}
 document.getElementById('btn-tr').onclick=()=>{lang='tr';toggleLangUI();}
 
 function updateToggleBtn(){
- if(lang==='tr'){
-   showAllBtn.innerText=showAll ? 'Son 24 Saat' : 'Tümünü Göster';
- } else {
-   showAllBtn.innerText=showAll ? 'Last 24h' : 'Show All';
- }
+  if(lang==='tr'){showAllBtn.innerText=showAll?'Son 24 Saat':'Tümünü Göster';}
+  else{showAllBtn.innerText=showAll?'Last 24h':'Show All';}
 }
 
 function toggleLangUI(){
- document.getElementById('btn-en').classList.toggle('active',lang==='en');
- document.getElementById('btn-tr').classList.toggle('active',lang==='tr');
- const tracksLabel = document.getElementById("tracksLabel");
-
- if(lang === 'tr'){
-   tracksLabel.innerText = "Şarkılar";
-   document.getElementById('addTrackBtn').innerText = '+ Şarkı Ekle';
-   document.getElementById('modalTitle').innerText = 'Yeni Şarkı Ekle';
-   document.getElementById('modalHint').innerText = 'Format: Şarkı Adı – Sanatçı Adı';
-   document.getElementById('modalInput').placeholder = 'örn: Dudu – Tarkan';
-   document.getElementById('modalCancelBtn').innerText = 'İptal';
-   document.getElementById('modalConfirmBtn').innerText = 'Ekle';
-   searchInput.placeholder="Şarkı ara...";
-   writeBtn.innerText="Yorum Yaz";
-   document.getElementById("footerText").innerHTML = `© 2026 TrackSays. Tüm hakları saklıdır. 
-<br>Tüm şarkı isimleri, sanatçı adları ve ilgili içerikler yalnızca demo amaçlıdır. 
-<br>TrackSays herhangi bir müzik şirketi, sanatçı veya platform ile bağlantılı değildir. 
-<br><a href="#">Gizlilik Politikası</a> · <a href="#">Kullanım Şartları</a>`;
- } else {
-   tracksLabel.innerText = "Tracks";
-   document.getElementById('addTrackBtn').innerText = '+ Add Track';
-   document.getElementById('modalTitle').innerText = 'Add New Track';
-   document.getElementById('modalHint').innerText = 'Format: Song Name – Artist Name';
-   document.getElementById('modalInput').placeholder = 'e.g. Waterloo – ABBA';
-   document.getElementById('modalCancelBtn').innerText = 'Cancel';
-   document.getElementById('modalConfirmBtn').innerText = 'Add';
-   searchInput.placeholder="Search songs...";
-   writeBtn.innerText="Write Comment";
-   document.getElementById("footerText").innerHTML = `© 2026 TrackSays. All rights reserved. 
-<br>All song titles, artist names, and related content are used for demonstration purposes only. 
-<br>TrackSays is not affiliated with any music labels, artists, or streaming platforms. 
-<br><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>`;
- }
-
- updateToggleBtn();
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-tr').classList.toggle('active',lang==='tr');
+  ['tracksLabel','tracksLabelM'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerText=lang==='tr'?'Şarkılar':'Tracks';
+  });
+  ['addTrackBtn','addTrackBtnM'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerText=lang==='tr'?'+ Şarkı Ekle':'+ Add Track';
+  });
+  document.getElementById('modalTitle').innerText=lang==='tr'?'Yeni Şarkı Ekle':'Add New Track';
+  document.getElementById('modalHint').innerText=lang==='tr'?'Format: Şarkı Adı – Sanatçı Adı':'Format: Song Name – Artist Name';
+  document.getElementById('modalInput').placeholder=lang==='tr'?'örn: Dudu – Tarkan':'e.g. Waterloo – ABBA';
+  document.getElementById('modalCancelBtn').innerText=lang==='tr'?'İptal':'Cancel';
+  document.getElementById('modalConfirmBtn').innerText=lang==='tr'?'Ekle':'Add';
+  searchInput.placeholder=lang==='tr'?'Şarkı ara...':'Search songs...';
+  writeBtn.innerText=lang==='tr'?'Yorum Yaz':'Write Comment';
+  document.getElementById('tabTracks').innerText=lang==='tr'?'🎵 Şarkılar':'🎵 Tracks';
+  document.getElementById('tabComments').innerText=lang==='tr'?'💬 Yorumlar':'💬 Comments';
+  if(document.getElementById('footerText')){
+    document.getElementById('footerText').innerHTML=lang==='tr'
+      ?`© 2026 TrackSays. Tüm hakları saklıdır.<br>Tüm şarkı isimleri yalnızca demo amaçlıdır.<br><a href="#">Gizlilik Politikası</a> · <a href="#">Kullanım Şartları</a>`
+      :`© 2026 TrackSays. All rights reserved.<br>All content used for demonstration purposes only.<br><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>`;
+  }
+  updateToggleBtn();
 }
 
 /* COMMENTS */
 const comments=document.getElementById('comments');
 const trackTitle=document.getElementById('trackTitle');
-
 let currentPage=1;
 const perPage=20;
 let currentTrack=null;
 
 function renderComments(track,page=1){
- currentTrack=track;
- currentPage=page;
-
- const parts=track.split(" – ");
- trackTitle.innerHTML=`
-   <span style="font-size:28px;font-weight:800;color:#38bdf8;letter-spacing:-0.5px;">${parts[0]}</span>
- `;
-
- comments.innerHTML='';
-
- const all=generate(track);
- const limit=showAll ? all.length : dailyCounts[track];
- const visible=all.slice(0,limit);
-
- const start=(page-1)*perPage;
- const pageData=visible.slice(start,start+perPage);
-
- pageData.forEach((c,i)=>{
-   const idx=start+i;
-
-   if(!userCache[track]) userCache[track]={};
-   if(!userCache[track][idx]){
-     userCache[track][idx]=userNames[Math.floor(Math.random()*userNames.length)];
-   }
-
-   const div=document.createElement('div');
-   div.className='comment';
-   div.innerHTML=`
-     <div class="comment-text">${c}</div>
-     <div class="comment-footer">
-       <span class="meta">${idx+1}h ago</span>
-       <span class="user">${userCache[track][idx]}</span>
-     </div>
-   `;
-   comments.appendChild(div);
- });
-
- renderPagination(track,visible.length);
+  currentTrack=track;
+  currentPage=page;
+  const parts=track.split(' – ');
+  trackTitle.textContent=parts[0];
+  comments.innerHTML='';
+  const all=generate(track);
+  const limit=showAll?all.length:dailyCounts[track];
+  const visible=all.slice(0,limit);
+  const start=(page-1)*perPage;
+  const pageData=visible.slice(start,start+perPage);
+  pageData.forEach((c,i)=>{
+    const idx=start+i;
+    if(!userCache[track]) userCache[track]={};
+    if(!userCache[track][idx]) userCache[track][idx]=userNames[Math.floor(Math.random()*userNames.length)];
+    const div=document.createElement('div');
+    div.className='comment';
+    div.innerHTML=`<div class="comment-text">${c}</div><div class="comment-footer"><span>${idx+1}h ago</span><span class="user">${userCache[track][idx]}</span></div>`;
+    comments.appendChild(div);
+  });
+  renderPagination(track,visible.length);
 }
 
 function renderPagination(track,total){
- const totalPages=Math.ceil(total/perPage);
- if(totalPages <= 1) return;
-
- const nav=document.createElement('div');
-
- for(let i=1;i<=totalPages;i++){
-   const btn=document.createElement('button');
-   btn.innerText=i;
-   btn.style.margin='4px';
-   btn.onclick=()=>renderComments(track,i);
-   nav.appendChild(btn);
- }
-
- comments.appendChild(nav);
+  const totalPages=Math.ceil(total/perPage);
+  if(totalPages<=1) return;
+  const nav=document.createElement('div');
+  nav.style.cssText='padding:8px 0;display:flex;flex-wrap:wrap;gap:4px';
+  for(let i=1;i<=totalPages;i++){
+    const btn=document.createElement('button');
+    btn.innerText=i;
+    if(i===currentPage) btn.classList.add('active');
+    btn.onclick=()=>renderComments(track,i);
+    nav.appendChild(btn);
+  }
+  comments.appendChild(nav);
 }
 
 showAllBtn.onclick=()=>{
- showAll=!showAll;
- updateToggleBtn();
- if(currentTrack){
-   renderComments(currentTrack,1);
- }
+  showAll=!showAll;
+  updateToggleBtn();
+  if(currentTrack) renderComments(currentTrack,1);
 };
 
+/* INIT */
 renderTrackList();
 renderComments(tracks[0]);
 toggleLangUI();
+checkMobileLayout();
 });
 </script>
+
 <footer class="footer">
-<div class="footer-content" id="footerText">
-© 2026 TrackSays. All rights reserved. 
-<br>
-All song titles, artist names, and related content are used for demonstration purposes only. 
-<br>
-TrackSays is not affiliated with any music labels, artists, or streaming platforms. 
-<br>
-<a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>
-</div>
+  <div id="footerText">
+    © 2026 TrackSays. All rights reserved.<br>
+    All song titles, artist names, and related content are used for demonstration purposes only.<br>
+    TrackSays is not affiliated with any music labels, artists, or streaming platforms.<br>
+    <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>
+  </div>
 </footer>
 </body>
 </html>
